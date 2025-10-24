@@ -4,13 +4,261 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Sponsorpakker — Humlum Dartklub</title>
+  <meta name="description" content="Bliv sponsor i Humlum Dartklub. Se Bronze, Sølv og Guld, sammenlign fordele, tilkøb og kontakt os for skræddersyede løsninger." />
+  <link rel="icon" href="images/favicon.png" />
   <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    html { scroll-behavior: smooth; }
+    .card { background:#fff; border:1px solid #e5e7eb; border-radius:16px; box-shadow:0 2px 12px rgba(0,0,0,.04);}
+    .grad { background:linear-gradient(180deg,#ecfeff, #ffffff 50%, #f0fdfa); }
+    .check::before{content:"✓"; display:inline-block; margin-right:.5rem; font-weight:700; }
+    .x::before{content:"—"; display:inline-block; margin-right:.6rem; color:#94a3b8;}
+  </style>
 </head>
-<body class="min-h-screen bg-white text-slate-800">
-  <main class="max-w-7xl mx-auto px-4 py-10">
-    <h1 class="text-3xl md:text-4xl font-extrabold">Sponsorpakker</h1>
-    <p class="mt-2 text-slate-600">Side oprettet — klar til indhold.</p>
-  </main>
+<body class="min-h-screen text-slate-800 bg-white">
+
+  <!-- Header -->
+  <header class="sticky top-0 z-40 bg-white/90 backdrop-blur border-b">
+    <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+      <a href="index.html" class="flex items-center gap-3">
+        <img src="images/logo DK.hvid.png" alt="Humlum Dartklub logo" class="h-10 w-10 object-contain" />
+        <div class="text-xl font-extrabold">Humlum Dartklub</div>
+      </a>
+      <nav class="hidden md:flex items-center gap-6 text-sm font-medium">
+        <a href="index.html#news" class="hover:text-emerald-700">Forside</a>
+        <a href="index.html#events" class="hover:text-emerald-700">Aktiviteter</a>
+        <a href="#tiers" class="hover:text-emerald-700">Pakker</a>
+        <a href="#compare" class="hover:text-emerald-700">Sammenlign</a>
+        <a href="#addons" class="hover:text-emerald-700">Tilkøb</a>
+        <a href="#faq" class="hover:text-emerald-700">FAQ</a>
+        <a href="#kontakt" class="ml-2 inline-flex items-center justify-center rounded-2xl px-4 py-2 bg-emerald-600 text-white">Kontakt</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="grad border-b">
+    <div class="max-w-7xl mx-auto px-4 py-10 md:py-14 grid md:grid-cols-2 gap-8 items-center">
+      <div>
+        <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight leading-tight">
+          Sponsorpakker der <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-cyan-600">skaber lokal værdi</span>
+        </h1>
+        <p class="mt-3 text-slate-600 text-lg">
+          Støt “Fællesskab & Præcision” – få synlighed, relationer og konkrete klub-aktiver.
+        </p>
+        <div class="mt-6 flex flex-wrap gap-3">
+          <a href="#tiers" class="rounded-2xl px-5 py-3 bg-emerald-600 text-white font-semibold hover:opacity-90">Se pakker</a>
+          <a href="#kontakt" class="rounded-2xl px-5 py-3 border font-semibold hover:bg-slate-50">Skræddersy aftale</a>
+          <a href="docs/sponsorpakke.pdf" class="rounded-2xl px-5 py-3 border font-semibold hover:bg-slate-50">Download PDF</a>
+        </div>
+        <ul class="mt-6 grid sm:grid-cols-3 gap-3 text-sm text-slate-600">
+          <li class="flex items-center gap-2"><span class="h-2.5 w-2.5 rounded-full bg-emerald-600"></span> Logo & omtale</li>
+          <li class="flex items-center gap-2"><span class="h-2.5 w-2.5 rounded-full bg-emerald-600"></span> Events & relationer</li>
+          <li class="flex items-center gap-2"><span class="h-2.5 w-2.5 rounded-full bg-emerald-600"></span> Ungdom & familier</li>
+        </ul>
+      </div>
+      <div class="relative">
+        <div class="aspect-[4/3] card overflow-hidden">
+          <img alt="Dart sponsorskab" class="h-full w-full object-cover" src="https://images.unsplash.com/photo-1602711675859-876b85b1bdda?q=80&w=1400&auto=format&fit=crop" />
+        </div>
+        <div class="absolute -bottom-5 -right-4 bg-white/90 border rounded-2xl shadow px-4 py-3">
+          <p class="text-sm">Sammen når vi <strong>flere</strong> i Struer</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tiers -->
+  <section id="tiers" class="py-12">
+    <div class="max-w-7xl mx-auto px-4">
+      <h2 class="text-2xl md:text-3xl font-extrabold tracking-tight">Vælg din pakke</h2>
+      <p class="mt-2 text-slate-600">Alle pakker kan udvides med tilkøb. Faktura pr. år. CVR-kvittering.</p>
+
+      <div class="mt-6 grid md:grid-cols-3 gap-6">
+        <!-- Bronze -->
+        <article class="card p-6">
+          <div class="text-sm font-semibold text-amber-700">Bronze</div>
+          <div class="mt-1 text-3xl font-extrabold">DKK 2.500<span class="text-base font-medium text-slate-500"> /år</span></div>
+          <ul class="mt-4 grid gap-2 text-sm">
+            <li class="check">Logo på hjemmeside (sponsorvæg)</li>
+            <li class="check">Tak på Facebook/Instagram</li>
+            <li class="check">Klubcertifikat til butik/kontor</li>
+            <li class="x text-slate-500">—</li>
+          </ul>
+          <a class="mt-5 inline-flex rounded-2xl px-5 py-2.5 bg-emerald-600 text-white font-semibold hover:opacity-90"
+             href="mailto:kontakt@humlumdartklub.dk?subject=Sponsor%20Bronze">Vælg Bronze</a>
+        </article>
+
+        <!-- Sølv -->
+        <article class="card p-6 border-emerald-300">
+          <div class="text-sm font-semibold text-slate-700">Sølv</div>
+          <div class="mt-1 text-3xl font-extrabold">DKK 5.000<span class="text-base font-medium text-slate-500"> /år</span></div>
+          <ul class="mt-4 grid gap-2 text-sm">
+            <li class="check">Alt i Bronze</li>
+            <li class="check">Logo på event-rollup i hallen</li>
+            <li class="check">Sponsoromtale ved events (speak)</li>
+            <li class="check">2 fribilletter til årlig klubturnering</li>
+          </ul>
+          <a class="mt-5 inline-flex rounded-2xl px-5 py-2.5 bg-emerald-600 text-white font-semibold hover:opacity-90"
+             href="mailto:kontakt@humlumdartklub.dk?subject=Sponsor%20S%C3%B8lv">Vælg Sølv</a>
+        </article>
+
+        <!-- Guld -->
+        <article class="card p-6 border-emerald-500 ring-1 ring-emerald-200">
+          <div class="text-sm font-semibold text-yellow-600">Guld</div>
+          <div class="mt-1 text-3xl font-extrabold">DKK 10.000<span class="text-base font-medium text-slate-500"> /år</span></div>
+          <ul class="mt-4 grid gap-2 text-sm">
+            <li class="check">Alt i Sølv</li>
+            <li class="check">Logo på træningstrøjer (ærme)</li>
+            <li class="check">Årlig firma-dart aften (2 timer)</li>
+            <li class="check">Profil på sponsorvæg + link</li>
+          </ul>
+          <a class="mt-5 inline-flex rounded-2xl px-5 py-2.5 bg-emerald-600 text-white font-semibold hover:opacity-90"
+             href="mailto:kontakt@humlumdartklub.dk?subject=Sponsor%20Guld">Vælg Guld</a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Comparison -->
+  <section id="compare" class="py-12 border-t">
+    <div class="max-w-7xl mx-auto px-4">
+      <h2 class="text-2xl md:text-3xl font-extrabold tracking-tight">Sammenlign fordele</h2>
+      <div class="mt-6 overflow-x-auto card p-4">
+        <table class="w-full text-sm">
+          <thead>
+            <tr class="text-left text-slate-500 border-b">
+              <th class="py-2">Fordel</th>
+              <th class="py-2">Bronze</th>
+              <th class="py-2">Sølv</th>
+              <th class="py-2">Guld</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-b"><td class="py-2">Logo på hjemmeside</td><td>✓</td><td>✓</td><td>✓</td></tr>
+            <tr class="border-b"><td class="py-2">Tak på SoMe</td><td>✓</td><td>✓</td><td>✓</td></tr>
+            <tr class="border-b"><td class="py-2">Event-rollup i hal</td><td>—</td><td>✓</td><td>✓</td></tr>
+            <tr class="border-b"><td class="py-2">Omtale ved events</td><td>—</td><td>✓</td><td>✓</td></tr>
+            <tr class="border-b"><td class="py-2">Logo på trøjer</td><td>—</td><td>—</td><td>✓</td></tr>
+            <tr><td class="py-2">Firma-dart aften (2t)</td><td>—</td><td>—</td><td>✓</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- Add-ons -->
+  <section id="addons" class="py-12">
+    <div class="max-w-7xl mx-auto px-4">
+      <h2 class="text-2xl md:text-3xl font-extrabold tracking-tight">Tilkøb & muligheder</h2>
+      <div class="mt-6 grid md:grid-cols-3 gap-6">
+        <article class="card p-5">
+          <h3 class="font-bold">Event-sponsorat</h3>
+          <p class="mt-1 text-sm text-slate-600">Navngiv en turnering eller præmie. Omtale + visuel eksponering.</p>
+          <p class="mt-2 text-xs text-slate-500">Fra DKK 3.000 pr. event</p>
+        </article>
+        <article class="card p-5">
+          <h3 class="font-bold">Materialestøtte</h3>
+          <p class="mt-1 text-sm text-slate-600">Skiver, pile, beklædning. Logo på inventar hvor muligt.</p>
+          <p class="mt-2 text-xs text-slate-500">Aftales</p>
+        </article>
+        <article class="card p-5">
+          <h3 class="font-bold">SoMe-pakke</h3>
+          <p class="mt-1 text-sm text-slate-600">Kampagnestory + opslag, før/efter event.</p>
+          <p class="mt-2 text-xs text-slate-500">DKK 1.500</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sponsor wall -->
+  <section class="py-12 border-y bg-slate-50">
+    <div class="max-w-7xl mx-auto px-4">
+      <div class="flex items-end justify-between">
+        <h2 class="text-2xl md:text-3xl font-extrabold tracking-tight">Vores partnere</h2>
+        <a href="#kontakt" class="hidden md:inline-flex rounded-2xl px-4 py-2 border font-semibold hover:bg-white">Bliv partner</a>
+      </div>
+      <div class="mt-6 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-6 items-center grayscale hover:grayscale-0 transition">
+        <img class="h-10 object-contain mx-auto" src="images/sponsors/struer-energi.png" alt="Struer Energi" />
+        <img class="h-10 object-contain mx-auto" src="images/sponsors/grundfos.png" alt="Grundfos" />
+        <img class="h-10 object-contain mx-auto" src="images/sponsors/dk-roof.png" alt="DK Roof" />
+        <img class="h-10 object-contain mx-auto" src="images/sponsors/priess.png" alt="Priess" />
+        <img class="h-10 object-contain mx-auto" src="images/sponsors/hvidberg.png" alt="Hvidberg" />
+        <img class="h-10 object-contain mx-auto" src="images/sponsors/your-logo.png" alt="Dit logo her" />
+      </div>
+      <p class="mt-3 text-xs text-slate-500">Tip: Læg firma-logoer i <code>/images/sponsors/</code> og opdater filnavne her.</p>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq" class="py-12">
+    <div class="max-w-4xl mx-auto px-4">
+      <h2 class="text-2xl md:text-3xl font-extrabold tracking-tight">FAQ — ofte stillede spørgsmål</h2>
+      <div class="mt-6 grid gap-4">
+        <details class="card p-4" open>
+          <summary class="font-semibold cursor-pointer">Hvordan betaler vi?</summary>
+          <p class="mt-2 text-sm text-slate-600">Vi fakturerer årligt. CVR påføres faktura. Betaling via bankoverførsel.</p>
+        </details>
+        <details class="card p-4">
+          <summary class="font-semibold cursor-pointer">Kan vi opgradere midt i året?</summary>
+          <p class="mt-2 text-sm text-slate-600">Ja, vi modregner forholdsmæssigt og opdaterer eksponering straks.</p>
+        </details>
+        <details class="card p-4">
+          <summary class="font-semibold cursor-pointer">Kan vi få skræddersyet aftale?</summary>
+          <p class="mt-2 text-sm text-slate-600">Selvfølgelig. Kontakt os, så designer vi en løsning der passer jeres mål.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA strip -->
+  <section class="py-10 bg-emerald-600 text-white">
+    <div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-4">
+      <div class="text-xl font-bold">Klar til at være med?</div>
+      <div class="flex flex-wrap gap-3">
+        <a href="#kontakt" class="rounded-2xl px-5 py-3 bg-white text-emerald-700 font-semibold">Kontakt os</a>
+        <a href="docs/sponsorpakke.pdf" class="rounded-2xl px-5 py-3 border border-white font-semibold">Download oversigt (PDF)</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Kontakt -->
+  <section id="kontakt" class="py-12">
+    <div class="max-w-3xl mx-auto px-4">
+      <h2 class="text-2xl md:text-3xl font-extrabold tracking-tight">Kontakt</h2>
+      <p class="mt-2 text-slate-600">Skriv en mail — vi svarer hurtigt og hjælper jer i gang.</p>
+      <div class="mt-6 card p-5 grid md:grid-cols-2 gap-6">
+        <div class="text-sm">
+          <div class="font-semibold">Humlum Dartklub</div>
+          <div>Stadionvej 1, 7600 Struer</div>
+          <div class="mt-2">Mail: <a class="text-emerald-700 font-semibold" href="mailto:kontakt@humlumdartklub.dk">kontakt@humlumdartklub.dk</a></div>
+          <div>Telefon: <a class="text-emerald-700 font-semibold" href="tel:+4512345678">+45 12 34 56 78</a></div>
+        </div>
+        <form class="grid gap-3 text-sm">
+          <label class="grid gap-1"><span class="font-medium">Virksomhed</span><input class="rounded-xl border px-3 py-2" placeholder="Firmanavn"></label>
+          <label class="grid gap-1"><span class="font-medium">Kontaktperson</span><input class="rounded-xl border px-3 py-2" placeholder="Navn"></label>
+          <label class="grid gap-1"><span class="font-medium">E-mail</span><input type="email" class="rounded-xl border px-3 py-2" placeholder="mail@firma.dk"></label>
+          <label class="grid gap-1"><span class="font-medium">Besked</span><textarea rows="4" class="rounded-xl border px-3 py-2" placeholder="Fortæl kort om ønsket pakke/idé"></textarea></label>
+          <a href="mailto:kontakt@humlumdartklub.dk?subject=Sponsor%20kontakt" class="mt-1 inline-flex justify-center rounded-2xl px-5 py-3 bg-emerald-600 text-white font-semibold hover:opacity-90">Send forespørgsel</a>
+          <p class="text-xs text-slate-500">Ved at indsende accepterer du vores privatlivspolitik.</p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="py-10 border-t bg-white">
+    <div class="max-w-7xl mx-auto px-4 flex flex-wrap items-center justify-between gap-4 text-sm">
+      <div>© <span id="year"></span> Humlum Dartklub · Fællesskab & Præcision</div>
+      <div class="flex items-center gap-4">
+        <a href="index.html#news" class="hover:text-emerald-700">Forside</a>
+        <a href="index.html#events" class="hover:text-emerald-700">Aktiviteter</a>
+        <a href="#tiers" class="hover:text-emerald-700">Pakker</a>
+        <a href="#faq" class="hover:text-emerald-700">FAQ</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
 </body>
 </html>
-
