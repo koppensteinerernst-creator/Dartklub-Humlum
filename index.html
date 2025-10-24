@@ -1,591 +1,473 @@
-<!DOCTYPE html>
-<html lang="da">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Humlum Dartklub — Foundation Pack v1</title>
-  <meta name="description" content="Humlum Dartklub: komplet fundament med moduler til booking, login, galleri, sponsorwall, live score, 180-klub, badges, attendance heatmap og medlemskort." />
-  <link rel="icon" href="images/favicon.png" />
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    html { scroll-behavior:smooth; }
-    #ticker:hover { animation-play-state: paused; }
-    @keyframes slideleft { 0%{transform:translateX(100%)} 100%{transform:translateX(-100%)} }
-  </style>
-</head>
-<body class="min-h-screen text-slate-800 bg-[radial-gradient(ellipse_at_top,_#ecfeff_0%,_#ffffff_50%,_#f0fdfa_100%)]">
+// ==============================
+// Humlum Dartklub — All‑in‑One Code v1
+// Next.js pages you can copy/paste.
+// Includes: Dynamic Hero, Family/Household focus, "Events for all" with filters,
+// Live Ticker (moved to compact top-right widget), Sponsor Package on separate page.
+// Styling is done with lightweight CSS-in-JS to avoid external setup issues.
+// If you already run Tailwind, you can replace classes later.
+// ==============================
 
-  <!-- HEADER -->
-  <header class="sticky top-0 z-50 bg-white/90 backdrop-blur border-b">
-    <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
-      <a href="/" class="flex items-center gap-4">
-        <img src="images/logo DK.hvid.png" alt="Humlum Dartklub logo" class="h-20 w-20 object-contain" />
-        <div>
-          <div class="text-2xl md:text-3xl font-extrabold tracking-tight leading-tight text-slate-900">Humlum Dartklub</div>
-          <div class="text-xs text-slate-500 -mt-0.5">Fællesskab & Præcision</div>
+// ==============================
+// /lib/content.js (inline)
+// Central content config. You can move this to /data/content.json later.
+// ==============================
+export const CONTENT = {
+  site: {
+    title: "Humlum Dartklub",
+    motto: "Fællesskab & Præcision",
+    tagline: "Dart for hele familien – begyndere til elite",
+    contactEmail: "kontakt@humlumdartklub.dk",
+    phone: "+45 12 34 56 78",
+    address: "Struer/Humlum – Klublokale v. Hallen",
+  },
+  hero: {
+    dynamicLines: [
+      "Lær dart med trygge familiehold",
+      "Træning på tværs af niveauer",
+      "Faste events – alle kan være med",
+      "Mentorordning for nye spillere",
+    ],
+    cta: { label: "Tilmeld introaften", href: "#signup" },
+    secondary: { label: "Se træningsplan", href: "#training" },
+  },
+  ticker: {
+    items: [
+      { t: "180!", d: "Ernst rammer triple 20 ×3 i aftenens træning" },
+      { t: "Checkout 132", d: "Lina lukker 25, T19, D25" },
+      { t: "PDC Watch", d: "Lørdag 19:30 – fælles viewing i klubben" },
+    ],
+  },
+  trainings: [
+    { level: "Familiehold (8+)", when: "Tirsdag 17:00–18:00", note: "Forælder + barn" },
+    { level: "Begynder", when: "Mandag 18:00–19:00", note: "Regler, stance, scoringsark" },
+    { level: "Øvet", when: "Onsdag 19:00–20:30", note: "Doubles, finish routes" },
+    { level: "Elite", when: "Torsdag 20:30–22:00", note: "501, sets/legs, mental fokus" },
+  ],
+  events: [
+    { title: "Familie-lørdag", date: "2025-10-25", type: "Familie", desc: "Hygge, intro og små konkurrencer" },
+    { title: "Ungdomscup", date: "2025-11-02", type: "Ungdom", desc: "U11/U15 – præmier og is" },
+    { title: "Klubturnering #7", date: "2025-11-09", type: "Voksne", desc: "A/B-række – Swiss format" },
+    { title: "Åben træning", date: "2025-10-28", type: "Alle", desc: "Kom og prøv – lån pile i klubben" },
+  ],
+  sponsor: {
+    intro:
+      "Støt lokal forening og få synlighed i et aktivt fællesskab. Vælg en pakke – eller lad os skræddersy.",
+    tiers: [
+      {
+        name: "Bronze",
+        price: "DKK 2.500/år",
+        perks: [
+          "Logo på hjemmeside (sponsorvæg)",
+          "Tak på Facebook/Instagram",
+          "Klubcertifikat til butik/kontor",
+        ],
+      },
+      {
+        name: "Sølv",
+        price: "DKK 5.000/år",
+        perks: [
+          "Alt i Bronze",
+          "Logo på event‑rollup i hallen",
+          "Sponsoromtale ved events (speak)",
+        ],
+      },
+      {
+        name: "Guld",
+        price: "DKK 10.000/år",
+        perks: [
+          "Alt i Sølv",
+          "Logo på træningstrøjer (ærme)",
+          "Årlig firma‑dart aften (2 timer)",
+        ],
+      },
+    ],
+    contactNote: "Skriv til os for tilbud og plads på næste trykrunde.",
+  },
+};
+
+// ==============================
+// /components/UX.js (inline)
+// Small UI helpers (container, button, badge, card)
+// ==============================
+export const Container = ({ children, wide }) => (
+  <div className="container">
+    {children}
+    <style jsx>{`
+      .container { max-width: ${wide ? "1100px" : "920px"}; margin: 0 auto; padding: 20px; }
+    `}</style>
+  </div>
+);
+
+export const Button = ({ href = "#", onClick, children, variant = "primary" }) => (
+  <a href={href} onClick={onClick} className={`btn ${variant}`}>
+    {children}
+    <style jsx>{`
+      .btn { display:inline-block; padding:10px 16px; border-radius:10px; text-decoration:none; font-weight:600; }
+      .primary { background:#0b5; color:white; }
+      .ghost { background:transparent; border:2px solid #0b5; color:#0b5; }
+      .btn:hover { opacity:0.9; }
+    `}</style>
+  </a>
+);
+
+export const Badge = ({ children }) => (
+  <span className="badge">{children}
+    <style jsx>{`
+      .badge { background:#eef7f1; color:#0b5; padding:4px 10px; border-radius:999px; font-size:12px; font-weight:600; }
+    `}</style>
+  </span>
+);
+
+export const Card = ({ children }) => (
+  <div className="card">{children}
+    <style jsx>{`
+      .card { background:white; border:1px solid #eee; border-radius:16px; padding:16px; box-shadow:0 2px 12px rgba(0,0,0,0.04); }
+    `}</style>
+  </div>
+);
+
+// ==============================
+// /components/LiveTicker.js (inline)
+// Compact top-right widget (not in footer). Click to expand.
+// ==============================
+import { useState } from "react";
+export const LiveTicker = ({ items }) => {
+  const [open, setOpen] = useState(false);
+  return (
+    <>
+      <div className="liveWidget" onClick={() => setOpen(!open)} role="button" aria-label="Live ticker">
+        <span className="dot" /> Live nu
+      </div>
+      {open && (
+        <div className="panel">
+          <h4>Live opdateringer</h4>
+          <ul>
+            {items.map((x, i) => (
+              <li key={i}><strong>{x.t}</strong> — {x.d}</li>
+            ))}
+          </ul>
         </div>
-      </a>
-      <nav class="hidden md:flex items-center gap-5 text-base font-medium">
-        <a href="#news" class="hover:text-cyan-700">Nyheder</a>
-        <a href="#training" class="hover:text-cyan-700">Træning</a>
-        <a href="#pdc" class="hover:text-cyan-700">PDC</a>
-        <a href="#events" class="hover:text-cyan-700">Aktiviteter</a>
-        <a href="#booking" class="hover:text-cyan-700">Booking</a>
-        <a href="#gallery" class="hover:text-cyan-700">Galleri</a>
-        <a href="#sponsorwall" class="hover:text-cyan-700">Sponsorer</a>
-        <a href="#club" class="hover:text-cyan-700">Klub</a>
-        <button id="openLogin" class="ml-2 inline-flex items-center justify-center rounded-2xl px-4 py-2 border shadow-sm hover:bg-slate-50">Login</button>
-        <a href="#join" class="ml-1 inline-flex items-center justify-center rounded-2xl px-4 py-2 bg-emerald-600 text-white shadow hover:opacity-90">Bliv medlem</a>
-      </nav>
-      <button id="burger" class="md:hidden inline-flex items-center justify-center h-10 w-10 rounded-xl border">
-        <span class="sr-only">Åbn menu</span>
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"/></svg>
-      </button>
-    </div>
-    <!-- Live Ticker -->
-    <div class="border-t bg-white/90">
-      <div class="max-w-7xl mx-auto px-4 py-2 overflow-hidden relative">
-        <div id="ticker" class="whitespace-nowrap will-change-transform" style="animation: slideleft linear 25s infinite;"></div>
-      </div>
-    </div>
-    <!-- Mobile nav -->
-    <div id="mobileNav" class="hidden md:hidden border-t">
-      <div class="px-4 py-3 grid gap-2 text-base">
-        <a href="#news" class="py-2">Nyheder</a>
-        <a href="#training" class="py-2">Træning</a>
-        <a href="#pdc" class="py-2">PDC</a>
-        <a href="#events" class="py-2">Aktiviteter</a>
-        <a href="#booking" class="py-2">Booking</a>
-        <a href="#gallery" class="py-2">Galleri</a>
-        <a href="#sponsorwall" class="py-2">Sponsorer</a>
-        <a href="#club" class="py-2">Klub</a>
-        <a href="#join" class="mt-1 inline-flex items-center justify-center rounded-2xl px-6 py-3 bg-emerald-600 text-white">Bliv medlem</a>
-      </div>
-    </div>
-  </header>
+      )}
+      <style jsx>{`
+        .liveWidget { position:fixed; top:14px; right:14px; background:#111; color:#fff; padding:8px 12px; border-radius:999px; font-weight:700; cursor:pointer; z-index:50; }
+        .dot { width:8px; height:8px; border-radius:50%; background:#0f0; display:inline-block; margin-right:8px; box-shadow:0 0 10px #0f0; }
+        .panel { position:fixed; top:56px; right:14px; width:320px; max-height:60vh; overflow:auto; background:white; border:1px solid #eee; border-radius:16px; padding:14px; z-index:49; box-shadow:0 6px 24px rgba(0,0,0,0.15); }
+        h4 { margin:4px 0 8px; }
+        li { margin:8px 0; }
+      `}</style>
+    </>
+  );
+};
 
-  <!-- HERO + News slider + Countdown -->
-  <section id="news" class="relative">
-    <div class="absolute inset-0 -z-10 bg-gradient-to-br from-cyan-50 via-white to-emerald-50"></div>
-    <div class="max-w-7xl mx-auto px-4 py-12 md:py-16 grid md:grid-cols-2 gap-10 items-center">
-      <div>
-        <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight text-slate-900 leading-tight">
-          Dart for alle – <span class="block text-transparent bg-clip-text bg-gradient-to-r from-cyan-600 to-emerald-600">fællesskab & præcision</span>
-        </h1>
-        <p class="mt-4 text-slate-600 text-lg">Velkommen i Humlum Dartklub. Træning, hygge og turneringer – uanset niveau.</p>
+// ==============================
+// /pages/index.js — HOMEPAGE
+// ==============================
+import Head from "next/head";
 
-        <!-- News Slider -->
-        <div class="mt-6 rounded-2xl border bg-white/70 backdrop-blur shadow overflow-hidden">
-          <div class="px-4 py-3 flex items-center justify-between">
-            <div class="text-sm font-semibold text-slate-700">Klubnyheder</div>
-            <div class="flex items-center gap-2">
-              <button id="prevNews" class="h-8 w-8 grid place-content-center rounded-lg border hover:bg-slate-50" aria-label="Forrige nyhed">‹</button>
-              <button id="nextNews" class="h-8 w-8 grid place-content-center rounded-lg border hover:bg-slate-50" aria-label="Næste nyhed">›</button>
+export default function Home() {
+  return (
+    <>
+      <Head>
+        <title>{CONTENT.site.title} – {CONTENT.site.motto}</title>
+        <meta name="description" content={CONTENT.site.tagline} />
+      </Head>
+
+      <LiveTicker items={CONTENT.ticker.items} />
+
+      <header className="hero">
+        <Container wide>
+          <div className="topRow">
+            <div className="left">
+              <Badge>{CONTENT.site.motto}</Badge>
+              <h1>{CONTENT.site.title}</h1>
+              <p className="tag">{CONTENT.site.tagline}</p>
+              <RotatingLines lines={CONTENT.hero.dynamicLines} />
+              <div className="cta">
+                <Button href={CONTENT.hero.cta.href}>{CONTENT.hero.cta.label}</Button>
+                <Button href={CONTENT.hero.secondary.href} variant="ghost">{CONTENT.hero.secondary.label}</Button>
+              </div>
+            </div>
+            <div className="right">
+              <HeroStat label="Medlemmer" value="42" />
+              <HeroStat label="Baner" value="6" />
+              <HeroStat label="Åben dage/uge" value="4" />
             </div>
           </div>
-          <div id="newsContent" class="px-4 pb-4 text-slate-700 text-sm min-h-[48px] grid items-center"></div>
-        </div>
+        </Container>
+        <style jsx>{`
+          .hero { background:linear-gradient(180deg,#f6fbff, #fff); padding:40px 0 10px; border-bottom:1px solid #eef3f7; }
+          .topRow { display:flex; gap:24px; align-items:flex-start; }
+          .left { flex:1; }
+          .right { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }
+          h1 { margin:12px 0 6px; font-size:44px; }
+          .tag { color:#456; margin-bottom:10px; }
+          .cta { margin-top:10px; display:flex; gap:10px; flex-wrap:wrap; }
+          @media (max-width:800px){ .topRow{flex-direction:column;} .right{grid-template-columns:repeat(3, minmax(0,1fr));} }
+        `}</style>
+      </header>
 
-        <!-- CTAs -->
-        <div class="mt-6 flex flex-wrap items-center gap-3">
-          <a href="#join" class="rounded-2xl px-5 py-3 bg-emerald-600 text-white font-semibold shadow hover:opacity-90">Bliv medlem</a>
-          <a href="#events" class="rounded-2xl px-5 py-3 border font-semibold hover:bg-slate-50">Se aktiviteter</a>
-        </div>
-      </div>
+      <main>
+        <Container>
+          <SectionTitle title="Træning for alle niveauer" subtitle="Familier, begyndere, øvede og elite" id="training" />
+          <TrainingTable rows={CONTENT.trainings} />
+        </Container>
 
-      <!-- Countdown + Hero image -->
-      <div class="relative">
-        <div class="aspect-[4/3] rounded-3xl border bg-white shadow-sm overflow-hidden">
-          <img alt="Dart hero" class="h-full w-full object-cover" src="https://images.unsplash.com/photo-1571731956672-c22282f11134?q=80&w=1400&auto=format&fit=crop" />
-        </div>
-        <div class="absolute -bottom-6 -right-4 md:-right-8 bg-white/90 backdrop-blur rounded-2xl border shadow px-4 py-3">
-          <p class="text-sm">Næste aktivitet: <span id="nextEventTitle" class="font-semibold">TBA</span></p>
-          <p class="mt-1 text-xs text-slate-600"><span id="countdown">00d 00t 00m 00s</span> • <a href="#events" class="text-emerald-700 font-semibold">Detaljer</a></p>
-        </div>
-      </div>
+        <Container>
+          <SectionTitle title="Events for alle" subtitle="Filtrér efter målgruppe" />
+          <EventsForAll items={CONTENT.events} />
+        </Container>
+
+        <Container>
+          <SectionTitle title="Familie & Husstand" subtitle="Trygge rammer, tydelige regler og hygge" />
+          <FamilyHousehold />
+        </Container>
+
+        <Container>
+          <SectionTitle title="Bliv medlem" subtitle="Udfyld – vi vender tilbage samme dag" id="signup" />
+          <SignupForm />
+        </Container>
+
+        <Container>
+          <SectionTitle title="Sponsorer" subtitle="Se pakker og fordele" />
+          <Card>
+            <p>Støt klubben og bliv synlig i lokalsamfundet.</p>
+            <div style={{marginTop:12}}>
+              <Button href="/sponsor">Gå til sponsorpakker</Button>
+            </div>
+          </Card>
+        </Container>
+      </main>
+
+      <footer>
+        <Container>
+          <div className="foot">
+            <div>
+              <strong>{CONTENT.site.title}</strong><br/>
+              {CONTENT.site.address}
+            </div>
+            <div>
+              <a href={`mailto:${CONTENT.site.contactEmail}`}>{CONTENT.site.contactEmail}</a><br/>
+              <a href={`tel:${CONTENT.site.phone}`}>{CONTENT.site.phone}</a>
+            </div>
+            <div>
+              <small>© {new Date().getFullYear()} – {CONTENT.site.motto}</small>
+            </div>
+          </div>
+        </Container>
+        <style jsx>{`
+          footer { border-top:1px solid #eee; background:#fafafa; padding:20px 0; }
+          .foot { display:grid; grid-template-columns:1.2fr 1fr 1fr; gap:16px; }
+          @media (max-width:800px){ .foot{grid-template-columns:1fr; } }
+        `}</style>
+      </footer>
+    </>
+  );
+}
+
+// ==============================
+// Inline subcomponents used on the homepage
+// ==============================
+function SectionTitle({ title, subtitle, id }){
+  return (
+    <div id={id} style={{margin:"8px 0 10px"}}>
+      <h2 style={{margin:"0 0 2px", fontSize:28}}>{title}</h2>
+      {subtitle && <p style={{color:"#567"}}>{subtitle}</p>}
     </div>
-  </section>
+  );
+}
 
-  <!-- TRAINING PLAN -->
-  <section id="training" class="py-16 bg-gradient-to-b from-emerald-50/60 to-cyan-50/60 border-y">
-    <div class="max-w-7xl mx-auto px-4">
-      <div class="flex items-end justify-between gap-4">
-        <div>
-          <h2 class="text-2xl md:text-3xl font-extrabold tracking-tight">Træningsplan — alle niveauer</h2>
-          <p class="mt-2 text-slate-600">Struktureret ugerytme for begynder, klub og pro.</p>
-        </div>
-        <a href="#join" class="hidden md:inline-flex items-center justify-center rounded-2xl px-4 py-2 bg-emerald-600 text-white text-sm font-semibold hover:opacity-90">Tilmeld interesse</a>
+function RotatingLines({ lines, interval = 3000 }){
+  const [i, setI] = useState(0);
+  useState(() => {
+    const id = setInterval(() => setI(v => (v + 1) % lines.length), interval);
+    return () => clearInterval(id);
+  }, [lines, interval]);
+  return <p style={{fontStyle:"italic", color:"#234"}}>{lines[i]}</p>;
+}
+
+function HeroStat({ label, value }){
+  return (
+    <Card>
+      <div style={{textAlign:"center"}}>
+        <div style={{fontSize:24, fontWeight:800}}>{value}</div>
+        <div style={{color:"#567"}}>{label}</div>
       </div>
-      <div id="trainingGrid" class="mt-8 grid md:grid-cols-3 gap-6"></div>
-      <div class="mt-8 rounded-3xl border bg-white p-6 shadow-sm overflow-x-auto">
-        <h3 class="text-lg font-bold">Ugeoversigt (print-venlig)</h3>
-        <table class="mt-4 w-full text-sm">
-          <thead>
-            <tr class="text-left text-slate-500 border-b">
-              <th class="py-2">Dag</th><th class="py-2">Tid</th><th class="py-2">Hold</th><th class="py-2">Fokus</th>
+    </Card>
+  );
+}
+
+function TrainingTable({ rows }){
+  return (
+    <Card>
+      <table style={{width:"100%", borderCollapse:"collapse"}}>
+        <thead>
+          <tr>
+            <th style={th}>Hold</th>
+            <th style={th}>Tid</th>
+            <th style={th}>Note</th>
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map((r, i) => (
+            <tr key={i}>
+              <td style={td}>{r.level}</td>
+              <td style={td}>{r.when}</td>
+              <td style={td}>{r.note}</td>
             </tr>
-          </thead>
-          <tbody id="trainingTable"></tbody>
-        </table>
+          ))}
+        </tbody>
+      </table>
+    </Card>
+  );
+}
+
+const th = { textAlign:"left", padding:"10px 8px", borderBottom:"1px solid #eee", color:"#345" };
+const td = { padding:"10px 8px", borderBottom:"1px solid #f3f3f3" };
+
+function EventsForAll({ items }){
+  const [filter, setFilter] = useState("Alle");
+  const categories = ["Alle", "Familie", "Ungdom", "Voksne"];
+  const list = items.filter(e => filter === "Alle" ? true : e.type === filter);
+  return (
+    <>
+      <div style={{display:"flex", gap:8, flexWrap:"wrap", margin:"6px 0 12px"}}>
+        {categories.map(c => (
+          <button key={c} onClick={() => setFilter(c)} className={`pill ${filter===c?"active":""}`}>{c}</button>
+        ))}
       </div>
-    </div>
-  </section>
-
-  <!-- PDC OVERBLIK -->
-  <section id="pdc" class="py-16 bg-white">
-    <div class="max-w-7xl mx-auto px-4">
-      <div class="flex items-end justify-between gap-4">
-        <div>
-          <h2 class="text-2xl md:text-3xl font-extrabold tracking-tight">PDC — internationale turneringer</h2>
-          <p class="mt-2 text-slate-600">Klub-kurateret oversigt – let at opdatere.</p>
-        </div>
-        <a href="https://www.pdc.tv/" target="_blank" rel="noopener" class="hidden md:inline-flex items-center justify-center rounded-2xl px-4 py-2 border text-sm font-semibold hover:bg-slate-50">Besøg PDC.tv</a>
-      </div>
-      <div id="pdcGrid" class="mt-8 grid md:grid-cols-3 gap-6"></div>
-    </div>
-  </section>
-
-  <!-- EVENTS TEASER -->
-  <section id="events" class="py-16 bg-white">
-    <div class="max-w-7xl mx-auto px-4">
-      <div class="flex items-end justify-between gap-4">
-        <div>
-          <h2 class="text-2xl md:text-3xl font-extrabold tracking-tight">Aktiviteter & turneringer</h2>
-          <p class="mt-2 text-slate-600">Næste op til 6 klub-aktiviteter.</p>
-        </div>
-      </div>
-      <div id="eventGrid" class="mt-8 grid md:grid-cols-3 gap-6"></div>
-    </div>
-  </section>
-
-  <!-- BOOKING (FUNDAMENT) -->
-  <section id="booking" class="py-16 bg-gradient-to-b from-emerald-50/60 to-cyan-50/60 border-y">
-    <div class="max-w-7xl mx-auto px-4">
-      <h2 class="text-2xl md:text-3xl font-extrabold tracking-tight">Banebooking (fundament)</h2>
-      <p class="mt-2 text-slate-600">Simpel ugebaseret visning (demo). Senere kan vi tilføje login + backend.</p>
-      <div id="bookingGrid" class="mt-8 grid sm:grid-cols-2 md:grid-cols-4 gap-6"></div>
-      <div class="mt-6 text-xs text-slate-500">Note: “Blocked” og “Booked” er kun demo-statusser i denne version.</div>
-    </div>
-  </section>
-
-  <!-- GALLERY (FUNDAMENT: DRAG & DROP PREVIEW) -->
-  <section id="gallery" class="py-16 bg-white border-t">
-    <div class="max-w-7xl mx-auto px-4">
-      <h2 class="text-2xl md:text-3xl font-extrabold tracking-tight">Galleri (fundament)</h2>
-      <p class="mt-2 text-slate-600">Frontend drag & drop preview – ingen upload endnu.</p>
-
-      <div class="mt-6 grid md:grid-cols-2 gap-6">
-        <div class="rounded-2xl border p-5 bg-white shadow-sm">
-          <div id="dropZone" class="h-48 grid place-content-center rounded-xl border-2 border-dashed text-slate-500">
-            Træk billeder hertil (preview)
-          </div>
-          <input id="fileInput" type="file" accept="image/*" multiple class="mt-3 text-sm" />
-        </div>
-        <div id="previewGrid" class="rounded-2xl border p-5 bg-white shadow-sm grid grid-cols-2 md:grid-cols-3 gap-3"></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- SPONSORWALL (LEVELS) -->
-  <section id="sponsorwall" class="py-16 bg-gradient-to-b from-slate-50 to-white border-y">
-    <div class="max-w-7xl mx-auto px-4">
-      <h2 class="text-2xl md:text-3xl font-extrabold tracking-tight">Sponsorer — levels</h2>
-      <p class="mt-2 text-slate-600">Guld · Sølv · Bronze — klar til at vise ROI.</p>
-
-      <div class="mt-8 grid md:grid-cols-3 gap-6">
-        <div class="rounded-2xl border p-5 bg-white shadow-sm" id="goldTier"><div class="font-bold">Guld</div><div class="mt-3 grid gap-3"></div></div>
-        <div class="rounded-2xl border p-5 bg-white shadow-sm" id="silverTier"><div class="font-bold">Sølv</div><div class="mt-3 grid gap-3"></div></div>
-        <div class="rounded-2xl border p-5 bg-white shadow-sm" id="bronzeTier"><div class="font-bold">Bronze</div><div class="mt-3 grid gap-3"></div></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- KLUB: Live score overlay + 180-klub + badges + attendance heatmap + medlemskort (QR) -->
-  <section id="club" class="py-16 bg-white">
-    <div class="max-w-7xl mx-auto px-4 grid gap-10">
-      <div class="grid md:grid-cols-2 gap-6">
-        <!-- Live score overlay (toggle) -->
-        <article class="rounded-2xl border p-5 shadow-sm bg-white">
-          <div class="flex items-center justify-between">
-            <h3 class="text-lg font-bold">Live Score – overlay (fundament)</h3>
-            <button id="toggleOverlay" class="rounded-xl px-3 py-1.5 border text-sm hover:bg-slate-50">Vis/Skjul overlay</button>
-          </div>
-          <div class="mt-4 grid sm:grid-cols-2 gap-3 text-sm">
-            <label class="grid gap-1"><span>Spiller A</span><input id="pA" class="rounded-xl border px-3 py-2" placeholder="Navn A" /></label>
-            <label class="grid gap-1"><span>Spiller B</span><input id="pB" class="rounded-xl border px-3 py-2" placeholder="Navn B" /></label>
-            <label class="grid gap-1"><span>Score A</span><input id="sA" class="rounded-xl border px-3 py-2" type="number" value="0" /></label>
-            <label class="grid gap-1"><span>Score B</span><input id="sB" class="rounded-xl border px-3 py-2" type="number" value="0" /></label>
-          </div>
-          <button id="applyOverlay" class="mt-3 inline-flex items-center justify-center rounded-2xl px-4 py-2 bg-emerald-600 text-white text-sm font-semibold hover:opacity-90">Opdater overlay</button>
-        </article>
-
-        <!-- 180 Klub + Badges -->
-        <article class="rounded-2xl border p-5 shadow-sm bg-white">
-          <h3 class="text-lg font-bold">180-klub & Badges</h3>
-          <div class="mt-4 grid md:grid-cols-2 gap-6">
-            <div>
-              <div class="font-semibold">180-klub</div>
-              <ul id="club180" class="mt-2 grid gap-1 text-sm"></ul>
+      <div className="grid">
+        {list.map((e, i) => (
+          <Card key={i}>
+            <div style={{display:"flex", justifyContent:"space-between", alignItems:"baseline"}}>
+              <h3 style={{margin:0}}>{e.title}</h3>
+              <Badge>{e.type}</Badge>
             </div>
-            <div>
-              <div class="font-semibold">Badges (fundament)</div>
-              <div id="badgeGrid" class="mt-2 grid grid-cols-3 gap-2"></div>
-            </div>
-          </div>
-        </article>
+            <p style={{margin:"6px 0 0", color:"#456"}}>{e.desc}</p>
+            <p style={{margin:"6px 0 0"}}><strong>{fmtDate(e.date)}</strong></p>
+          </Card>
+        ))}
       </div>
+      <style jsx>{`
+        .grid { display:grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap:12px; }
+        @media (max-width:800px){ .grid { grid-template-columns:1fr; } }
+        .pill { border:1px solid #0b5; background:#fff; color:#0b5; padding:6px 10px; border-radius:999px; font-weight:700; cursor:pointer; }
+        .pill.active { background:#0b5; color:#fff; }
+      `}</style>
+    </>
+  );
+}
 
-      <!-- Attendance heatmap -->
-      <article class="rounded-2xl border p-5 shadow-sm bg-white">
-        <h3 class="text-lg font-bold">Attendance Heatmap (fundament)</h3>
-        <p class="text-sm text-slate-600">Demovisning af måned – farve = aktivitet.</p>
-        <div id="heatmap" class="mt-4 grid grid-cols-7 gap-1 text-xs"></div>
-      </article>
+function FamilyHousehold(){
+  return (
+    <Card>
+      <ul style={{margin:"0 0 0 16px"}}>
+        <li>Tryg intro for hele husstanden – lån pile i klubben</li>
+        <li>Forælder‑barn træning med trænere til stede</li>
+        <li>Klubkodeks: respekt, sikkerhed og spilleglæde</li>
+        <li>Kaffe/saft‑hjørne – pauser er også fællesskab</li>
+        <li>Mulighed for familie‑medlemskab og rabat</li>
+      </ul>
+    </Card>
+  );
+}
 
-      <!-- Digitalt medlemskort (QR) -->
-      <article class="rounded-2xl border p-5 shadow-sm bg-white">
-        <h3 class="text-lg font-bold">Digitalt Medlemskort (QR — fundament)</h3>
-        <p class="text-sm text-slate-600">Generér lokal QR (navn + medlemsID). Ingen ekstern server.</p>
-        <div class="grid sm:grid-cols-3 gap-3 mt-3 text-sm">
-          <label class="grid gap-1"><span>Navn</span><input id="mName" class="rounded-xl border px-3 py-2" placeholder="Medlemsnavn" /></label>
-          <label class="grid gap-1"><span>Medlems-ID</span><input id="mId" class="rounded-xl border px-3 py-2" placeholder="fx HUM1234" /></label>
-          <button id="makeQR" class="self-end inline-flex items-center justify-center rounded-2xl px-4 py-2 bg-emerald-600 text-white font-semibold hover:opacity-90">Lav QR</button>
+function SignupForm(){
+  const onSubmit = (e) => {
+    e.preventDefault();
+    alert("Tak! Vi vender tilbage i dag – tjek også din e‑mail.");
+  };
+  return (
+    <Card>
+      <form onSubmit={onSubmit} style={{display:"grid", gap:10}}>
+        <div style={{display:"grid", gap:8}}>
+          <label>Navn<input required name="name" className="in" placeholder="Fornavn og efternavn"/></label>
+          <label>E‑mail<input required type="email" name="email" className="in" placeholder="din@mail.dk"/></label>
+          <label>Husstand<select name="household" className="in">
+            <option>Enkelt</option>
+            <option>Par</option>
+            <option>Familie (forælder + barn/børn)</option>
+          </select></label>
+          <label>Niveau<select name="level" className="in">
+            <option>Begynder</option>
+            <option>Øvet</option>
+            <option>Elite</option>
+            <option>Ikke sikker endnu</option>
+          </select></label>
+          <label>Besked<textarea name="msg" className="in" rows={4} placeholder="Fortæl kort om jer – så matcher vi et hold"/></label>
         </div>
-        <div id="qrPanel" class="mt-4 grid place-content-start gap-2">
-          <canvas id="qrCanvas" width="180" height="180" class="rounded-xl border bg-white"></canvas>
-          <div id="qrText" class="text-xs text-slate-500"></div>
+        <div><button className="submit">Send</button></div>
+      </form>
+      <style jsx>{`
+        label { display:grid; gap:6px; font-weight:600; color:#234; }
+        .in { padding:10px 12px; border:1px solid #dde3ea; border-radius:10px; font-size:15px; }
+        .submit { background:#0b5; color:#fff; font-weight:800; padding:12px 16px; border:none; border-radius:12px; cursor:pointer; }
+        .submit:hover{ opacity:0.9; }
+      `}</style>
+    </Card>
+  );
+}
+
+function fmtDate(s){
+  try {
+    const d = new Date(s + "T00:00:00");
+    return d.toLocaleDateString("da-DK", { weekday:"short", day:"2-digit", month:"short" });
+  } catch { return s; }
+}
+
+// ==============================
+// /pages/sponsor.js — SPONSORPAKKER
+// Separate side som ønsket. Viser oversigt + fordele.
+// ==============================
+export function SponsorPage(){
+  return (
+    <>
+      <Head>
+        <title>Sponsorpakker – {CONTENT.site.title}</title>
+      </Head>
+      <Container>
+        <div style={{margin:"20px 0"}}>
+          <h1 style={{margin:"0 0 6px"}}>Sponsorpakker</h1>
+          <p style={{color:"#456"}}>{CONTENT.sponsor.intro}</p>
         </div>
-      </article>
-    </div>
-  </section>
-
-  <!-- CONTACT & FOOTER -->
-  <section id="contact" class="py-16 bg-gradient-to-t from-cyan-50/60 to-emerald-50/60 border-t">
-    <div class="max-w-3xl mx-auto px-4">
-      <h2 class="text-2xl md:text-3xl font-extrabold tracking-tight text-center">Kontakt & find vej</h2>
-      <p class="mt-2 text-slate-600 text-center">Dette er fundamentet – formular er demo.</p>
-      <div class="mt-8 grid md:grid-cols-2 gap-6">
-        <div class="rounded-2xl border overflow-hidden">
-          <iframe class="w-full h-64" style="border:0" loading="lazy" allowfullscreen
-            src="https://www.google.com/maps?q=Stadionvej%201,%207600%20Struer&output=embed"></iframe>
-          <div class="px-4 py-3 border-t text-sm">
-            Stadionvej 1, 7600 Struer · CVR 12345678
-            <div class="mt-2 flex gap-2">
-              <a class="text-emerald-700 font-semibold" target="_blank" rel="noopener"
-                 href="https://www.google.com/maps/dir/?api=1&destination=Stadionvej+1,+7600+Struer">Rutevejledning</a>
-              <button id="copyAddr" class="text-slate-700 underline-offset-2 hover:underline">Kopiér adresse</button>
-            </div>
-          </div>
+        <div className="tiers">
+          {CONTENT.sponsor.tiers.map((t, i) => (
+            <Card key={i}>
+              <h2 style={{margin:"0 0 6px"}}>{t.name}</h2>
+              <p><strong>{t.price}</strong></p>
+              <ul style={{margin:"8px 0 0 18px"}}>
+                {t.perks.map((p, j) => <li key={j}>{p}</li>)}
+              </ul>
+              <div style={{marginTop:12}}>
+                <Button href={`mailto:${CONTENT.site.contactEmail}?subject=Sponsor%20${t.name}`}>Kontakt os</Button>
+              </div>
+            </Card>
+          ))}
         </div>
-        <form class="rounded-2xl border p-4 grid gap-3 text-sm bg-white">
-          <label class="grid gap-1"><span class="font-medium text-slate-700">Navn</span><input class="rounded-xl border px-3 py-2" placeholder="Dit navn"></label>
-          <label class="grid gap-1"><span class="font-medium text-slate-700">Email</span><input class="rounded-xl border px-3 py-2" placeholder="din@email.dk"></label>
-          <label class="grid gap-1"><span class="font-medium text-slate-700">Besked</span><textarea rows="5" class="rounded-xl border px-3 py-2" placeholder="Skriv gerne lidt…"></textarea></label>
-          <button type="button" class="mt-1 inline-flex justify-center rounded-2xl px-5 py-3 bg-emerald-600 text-white font-semibold shadow hover:opacity-90">Send</button>
-          <p class="text-xs text-slate-500">Ved at indsende accepterer du vores privatlivspolitik.</p>
-        </form>
-      </div>
-    </div>
-  </section>
+        <Card>
+          <p style={{margin:0}}>{CONTENT.sponsor.contactNote}</p>
+        </Card>
+      </Container>
+      <style jsx>{`
+        .tiers { display:grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap:12px; margin: 12px 0; }
+        @media (max-width:900px){ .tiers{ grid-template-columns:1fr; } }
+      `}</style>
+    </>
+  );
+}
 
-  <footer class="py-10 border-t bg-white">
-    <div class="max-w-7xl mx-auto px-4 grid md:grid-cols-3 gap-8 items-start">
-      <div>
-        <div class="font-extrabold">Humlum Dartklub</div>
-        <div class="text-sm text-slate-500">Fællesskab og Præcision</div>
-        <p class="mt-3 text-sm text-slate-600">CVR 12345678 · Stadionvej 1, 7600 Struer</p>
-      </div>
-      <div class="text-sm">
-        <div class="font-semibold">Menu</div>
-        <ul class="mt-2 grid gap-1">
-          <li><a href="#news" class="hover:text-cyan-700">Nyheder</a></li>
-          <li><a href="#training" class="hover:text-cyan-700">Træning</a></li>
-          <li><a href="#pdc" class="hover:text-cyan-700">PDC</a></li>
-          <li><a href="#events" class="hover:text-cyan-700">Aktiviteter</a></li>
-          <li><a href="#booking" class="hover:text-cyan-700">Booking</a></li>
-          <li><a href="#gallery" class="hover:text-cyan-700">Galleri</a></li>
-          <li><a href="#sponsorwall" class="hover:text-cyan-700">Sponsorer</a></li>
-          <li><a href="#club" class="hover:text-cyan-700">Klub</a></li>
-          <li><a href="#contact" class="hover:text-cyan-700">Kontakt</a></li>
-        </ul>
-      </div>
-      <div class="text-sm">
-        <div class="font-semibold">Følg os</div>
-        <ul class="mt-2 grid gap-1">
-          <li><a href="#" class="hover:text-cyan-700">Facebook</a></li>
-          <li><a href="#" class="hover:text-cyan-700">Instagram</a></li>
-          <li><a href="#" class="hover:text-cyan-700">X / Twitter</a></li>
-        </ul>
-      </div>
-    </div>
-    <div class="mt-10 text-center text-xs text-slate-500">© <span id="year"></span> Humlum Dartklub. Alle rettigheder forbeholdes.</div>
-  </footer>
+// If using Next.js routing, save this as pages/sponsor.js:
+// export default SponsorPage;
+// If you need quick testing within a single file environment,
+// also export default below (comment out on real pages):
+export const Sponsor = SponsorPage;
 
-  <!-- ========= DATA & LOGIK (ALT ER FUNDAMENT – INGEN TILPASNING NØDVENDIG NU) ========= -->
-  <script>
-    // ---------------- GLOBAL UI BASICS ----------------
-    document.getElementById('year').textContent = new Date().getFullYear();
-    document.getElementById('burger').addEventListener('click', ()=> {
-      document.getElementById('mobileNav').classList.toggle('hidden');
-    });
-
-    // ---------------- LIVE TICKER ----------------
-    const tickerItems = [
-      "Onsdag 19:00: Træning — alle niveauer velkomne",
-      "Lør 08/11: Hyggeturnering 501 — Tilmeld under Aktiviteter",
-      "Sponsor: Tak til Struer Energi",
-      "Begynderintro første torsdag hver måned"
-    ];
-    document.getElementById("ticker").innerHTML = `<div class="inline-block">${tickerItems.join(" · &nbsp;&nbsp;")}</div>`;
-
-    // ---------------- NYHEDSSLIDER ----------------
-    const newsItems = [
-      "Nye klubtrøjer på vej – prøvning næste uge.",
-      "Partner Cup åbner for tilmelding i dag!",
-      "Begynderhold: Gratis intro hver 1. torsdag.",
-      "Rangliste opdateret — se top 10 under Klub."
-    ];
-    let newsIndex = 0;
-    const newsEl = document.getElementById("newsContent");
-    function renderNews(){ newsEl.textContent = newsItems[newsIndex]; }
-    document.getElementById("prevNews").onclick = () => { newsIndex = (newsIndex - 1 + newsItems.length) % newsItems.length; renderNews(); };
-    document.getElementById("nextNews").onclick = () => { newsIndex = (newsIndex + 1) % newsItems.length; renderNews(); };
-    setInterval(()=>{ newsIndex = (newsIndex + 1) % newsItems.length; renderNews(); }, 6000);
-    renderNews();
-
-    // ---------------- TRÆNINGSPLAN ----------------
-    const trainings = [
-      { level:"Begynder", color:"from-emerald-500 to-cyan-600", focus:"Grips, stance, sigte", times:["Ons 18:00–19:00"] },
-      { level:"Klub",     color:"from-cyan-600 to-emerald-600", focus:"Dobbelttræning, 501-legs", times:["Ons 19:00–20:30"] },
-      { level:"Pro",      color:"from-sky-700 to-emerald-700",  focus:"Checkout-ruter, pres-spil", times:["Fre 17:00–18:30"] },
-    ];
-    const trainingGrid = document.getElementById("trainingGrid");
-    trainings.forEach(t=>{
-      const el = document.createElement("article");
-      el.className = "rounded-3xl border shadow-sm overflow-hidden bg-white";
-      el.innerHTML = `
-        <div class="px-5 py-4 border-b bg-gradient-to-r ${t.color} text-white">
-          <div class="text-lg font-bold">${t.level}</div>
-          <div class="text-xs opacity-90">Fokus: ${t.focus}</div>
-        </div>
-        <div class="p-5 text-sm text-slate-700 grid gap-1">
-          ${t.times.map(x=>`<div class="flex items-center gap-2"><span class="h-2 w-2 rounded-full bg-emerald-600"></span>${x}</div>`).join("")}
-        </div>`;
-      trainingGrid.appendChild(el);
-    });
-    const trainingTable = document.getElementById("trainingTable");
-    const weekRows = [
-      ["Onsdag","18:00–19:00","Begynder","Grips, stance, sigte"],
-      ["Onsdag","19:00–20:30","Klub","Dobbelttræning, 501-legs"],
-      ["Fredag","17:00–18:30","Pro","Checkout-ruter, pres-spil"]
-    ];
-    trainingTable.innerHTML = weekRows.map(r=>`<tr class="border-b"><td class="py-2">${r[0]}</td><td class="py-2">${r[1]}</td><td class="py-2">${r[2]}</td><td class="py-2">${r[3]}</td></tr>`).join("");
-
-    // ---------------- PDC EVENTS (KURATERET) ----------------
-    const pdcEvents = [
-      { date:"2025-01-03", title:"PDC World Championship — Finals", note:"Se med på PDC.tv", link:"https://www.pdc.tv/" },
-      { date:"2025-02-10", title:"Premier League Night 1", note:"Top 8 battle", link:"https://www.pdc.tv/" },
-      { date:"2025-03-05", title:"UK Open", note:"Alle mod alle – kaos og magi", link:"https://www.pdc.tv/" }
-    ];
-    const pdcGrid = document.getElementById("pdcGrid");
-    pdcEvents.forEach(e=>{
-      const a = document.createElement("article");
-      a.className = "rounded-2xl border p-5 shadow-sm bg-white hover:shadow-md transition";
-      a.innerHTML = `
-        <div class="text-sm text-slate-500">${new Date(e.date).toLocaleDateString('da-DK',{weekday:'short', day:'2-digit', month:'2-digit', year:'numeric'})}</div>
-        <h3 class="mt-1 font-semibold">${e.title}</h3>
-        <p class="mt-1 text-sm text-slate-600">${e.note}</p>
-        <a href="${e.link}" target="_blank" rel="noopener" class="mt-3 inline-flex text-sm text-emerald-700 font-semibold">Læs mere ·→</a>`;
-      pdcGrid.appendChild(a);
-    });
-
-    // ---------------- KLUB EVENTS + COUNTDOWN ----------------
-    const clubEvents = [
-      { date:"2025-10-29T19:00:00", place:"Klublokalet", title:"Træning – Fokus på T20" },
-      { date:"2025-11-08T12:00:00", place:"Multihallen", title:"Hyggeturnering – 501" },
-      { date:"2025-11-21T18:00:00", place:"Klublokalet", title:"Rangliste #4" }
-    ];
-    const eventGrid = document.getElementById("eventGrid");
-    clubEvents.forEach(e=>{
-      const d = new Date(e.date);
-      const card = document.createElement("article");
-      card.className = "rounded-2xl border p-5 shadow-sm bg-white";
-      card.innerHTML = `
-        <div class="text-sm text-slate-500">${d.toLocaleDateString('da-DK',{weekday:'short', day:'2-digit', month:'2-digit'})} · ${e.place}</div>
-        <h3 class="mt-1 font-semibold">${e.title}</h3>
-        <a href="#contact" class="mt-3 inline-flex text-sm text-emerald-700 font-semibold">Tilmeld ·→</a>`;
-      eventGrid.appendChild(card);
-    });
-    const nextEvent = clubEvents.slice().sort((a,b)=> new Date(a.date)-new Date(b.date)).find(e=> new Date(e.date) > new Date());
-    const nextEventTitle = document.getElementById("nextEventTitle");
-    if(nextEvent){ nextEventTitle.textContent = nextEvent.title; }
-    const countdownEl = document.getElementById("countdown");
-    function tick(){
-      if(!nextEvent){ countdownEl.textContent = "Planlæg næste aktivitet"; return; }
-      const t = new Date(nextEvent.date) - new Date();
-      if(t<=0){ countdownEl.textContent = "NU!"; return; }
-      const s = Math.floor(t/1000);
-      const d = Math.floor(s/86400); const h = Math.floor((s%86400)/3600);
-      const m = Math.floor((s%3600)/60); const sec = s%60;
-      countdownEl.textContent = `${String(d).padStart(2,'0')}d ${String(h).padStart(2,'0')}t ${String(m).padStart(2,'0')}m ${String(sec).padStart(2,'0')}s`;
-    }
-    setInterval(tick, 1000); tick();
-
-    // ---------------- BOOKING (FUNDAMENT: UGEVISNING) ----------------
-    const lanes = [1,2,3,4,5,6,7,8];
-    const weekSlots = ["17:00","18:00","19:00","20:00"];
-    const bookingGrid = document.getElementById("bookingGrid");
-    lanes.forEach(i=>{
-      const el = document.createElement('article');
-      el.className = "rounded-2xl border p-5 shadow-sm bg-white grid gap-3";
-      el.innerHTML = `
-        <div class="flex items-center justify-between">
-          <div class="font-semibold">Bane ${i}</div>
-          <span class="text-xs px-2 py-0.5 rounded-full bg-cyan-50 text-cyan-700 border">FUNDAMENT</span>
-        </div>
-        <div class="grid grid-cols-2 gap-2">
-          ${weekSlots.map(s=> `<button class="rounded-xl border px-3 py-2 text-sm hover:bg-slate-50" disabled>${s}</button>`).join("")}
-        </div>`;
-      bookingGrid.appendChild(el);
-    });
-
-    // ---------------- GALLERI: DRAG & DROP PREVIEW ----------------
-    const dropZone = document.getElementById('dropZone');
-    const fileInput = document.getElementById('fileInput');
-    const previewGrid = document.getElementById('previewGrid');
-    ['dragenter','dragover'].forEach(evt => dropZone.addEventListener(evt, e=>{ e.preventDefault(); dropZone.classList.add('border-emerald-400'); }));
-    ['dragleave','drop'].forEach(evt => dropZone.addEventListener(evt, e=>{ e.preventDefault(); dropZone.classList.remove('border-emerald-400'); }));
-    dropZone.addEventListener('drop', e=>{
-      const files = [...e.dataTransfer.files].filter(f=> f.type.startsWith('image/'));
-      files.forEach(showPreview);
-    });
-    fileInput.addEventListener('change', e=>{ [...e.target.files].forEach(showPreview); });
-    function showPreview(file){
-      const url = URL.createObjectURL(file);
-      const fig = document.createElement('figure');
-      fig.className = "aspect-[4/3] rounded-xl overflow-hidden border relative";
-      fig.innerHTML = `<img class="h-full w-full object-cover" src="${url}" alt="${file.name}"><figcaption class="absolute bottom-0 right-0 text-[10px] bg-black/50 text-white px-1">${file.name}</figcaption>`;
-      previewGrid.appendChild(fig);
-    }
-
-    // ---------------- SPONSORWALL LEVELS ----------------
-    const sponsors = {
-      gold:   [{name:"Struer Energi"},{name:"NordVest Bank"}],
-      silver: [{name:"Havne Café"},{name:"Sport24 Struer"}],
-      bronze: [{name:"DartShop DK"},{name:"Bageren i Humlum"}]
-    };
-    function renderSponsorTier(elId, list){
-      const wrap = document.querySelector(`#${elId} .grid`);
-      list.forEach(s=>{
-        const box = document.createElement('div');
-        box.className = "aspect-[3/2] rounded-xl border bg-white grid place-content-center p-4 hover:shadow-sm";
-        box.innerHTML = `<div class="text-xs text-slate-500 text-center">${s.name}</div>`;
-        wrap.appendChild(box);
-      });
-    }
-    renderSponsorTier('goldTier', sponsors.gold);
-    renderSponsorTier('silverTier', sponsors.silver);
-    renderSponsorTier('bronzeTier', sponsors.bronze);
-
-    // ---------------- LIVE SCORE OVERLAY ----------------
-    const overlay = document.createElement('div');
-    overlay.className = "hidden fixed bottom-4 right-4 z-[60] rounded-2xl border bg-black/80 text-white shadow-lg p-4 min-w-[220px]";
-    overlay.innerHTML = `
-      <div class="text-xs opacity-80">LIVE SCORE</div>
-      <div class="mt-1 font-semibold"><span id="oA">A</span> <span id="oSA">0</span> — <span id="oSB">0</span> <span id="oB">B</span></div>`;
-    document.body.appendChild(overlay);
-    document.getElementById('toggleOverlay').onclick = ()=> overlay.classList.toggle('hidden');
-    document.getElementById('applyOverlay').onclick = ()=> {
-      document.getElementById('oA').textContent  = document.getElementById('pA').value || "A";
-      document.getElementById('oB').textContent  = document.getElementById('pB').value || "B";
-      document.getElementById('oSA').textContent = document.getElementById('sA').value || 0;
-      document.getElementById('oSB').textContent = document.getElementById('sB').value || 0;
-      overlay.classList.remove('hidden');
-    };
-
-    // ---------------- 180-KLUB + BADGES (FUNDAMENT) ----------------
-    const hundredEighty = [
-      { name:"Ernst K.", count:5 },
-      { name:"Mia H.",   count:3 },
-      { name:"Jonas P.", count:2 },
-    ];
-    document.getElementById('club180').innerHTML = hundredEighty
-      .map(p=> `<li class="flex items-center justify-between"><span>${p.name}</span><span class="font-semibold">×${p.count}</span></li>`).join("");
-
-    const badges = [
-      { title:"Streak 4",  hint:"4 træninger i træk" },
-      { title:"First 180", hint:"Første 180 i klub" },
-      { title:"Checkout 120", hint:"Lukker 120+" },
-    ];
-    document.getElementById('badgeGrid').innerHTML = badges
-      .map(b=> `<div class="rounded-xl border px-2 py-3 text-center text-xs bg-white">${b.title}</div>`).join("");
-
-    // ---------------- ATTENDANCE HEATMAP (FUNDAMENT) ----------------
-    const heatmap = document.getElementById('heatmap');
-    const daysInMonth = new Date(new Date().getFullYear(), new Date().getMonth()+1, 0).getDate();
-    for(let d=1; d<=daysInMonth; d++){
-      const activity = Math.floor(Math.random()*3); // demo: 0..2
-      const c = document.createElement('div');
-      c.className = "h-8 w-8 rounded grid place-content-center border text-[10px] " + (activity===0 ? "bg-white" : activity===1 ? "bg-emerald-100" : "bg-emerald-300");
-      c.textContent = d;
-      heatmap.appendChild(c);
-    }
-
-    // ---------------- MEDLEMSKORT (QR — FUNDAMENT) ----------------
-    function drawQR(text){
-      // Minimal pseudo-QR (ikke ægte QR): vi tegner mønster baseret på teksthash (fundament/placeholder)
-      const canvas = document.getElementById('qrCanvas');
-      const ctx = canvas.getContext('2d');
-      const size = 18, cells = 10; // 10x10 matrix
-      ctx.fillStyle = "#fff"; ctx.fillRect(0,0,180,180);
-      // simpel hash
-      let h = 0; for (let i=0;i<text.length;i++) h = (h*31 + text.charCodeAt(i)) >>> 0;
-      for(let y=0;y<cells;y++){
-        for(let x=0;x<cells;x++){
-          h = (h * 1103515245 + 12345) & 0x7fffffff;
-          const on = (h % 100) < 45; // ~45% fyldning
-          ctx.fillStyle = on ? "#111" : "#fff";
-          ctx.fillRect(x*size, y*size, size-2, size-2);
-        }
-      }
-    }
-    document.getElementById('makeQR').onclick = ()=>{
-      const name = document.getElementById('mName').value || "Medlem";
-      const id   = document.getElementById('mId').value   || "HUM0000";
-      const payload = `${name}|${id}`;
-      drawQR(payload);
-      document.getElementById('qrText').textContent = `Payload: ${payload}`;
-    };
-
-    // ---------------- LOGIN (SIMPelt FUNDAMENT) ----------------
-    const loginBtn = document.getElementById('openLogin');
-    // modal
-    const modal = document.createElement('div');
-    modal.className = "hidden fixed inset-0 z-50 bg-black/40 grid place-content-center p-4";
-    modal.innerHTML = `
-      <div class="w-full max-w-sm rounded-2xl border bg-white p-5 shadow-xl">
-        <div class="text-lg font-bold">Klub Login (fundament)</div>
-        <p class="text-xs text-slate-500">Demo: tjekker kun kode lokalt (ingen server endnu).</p>
-        <label class="grid gap-1 text-sm mt-4"><span>Email</span><input id="liEmail" class="rounded-xl border px-3 py-2" placeholder="din@email.dk"></label>
-        <label class="grid gap-1 text-sm mt-2"><span>Kode</span><input id="liPwd" type="password" class="rounded-xl border px-3 py-2" placeholder="••••••"></label>
-        <div class="mt-4 flex items-center justify-between">
-          <button id="closeLogin" class="rounded-xl px-3 py-2 border hover:bg-slate-50">Luk</button>
-          <button id="doLogin" class="rounded-xl px-3 py-2 bg-emerald-600 text-white hover:opacity-90">Login</button>
-        </div>
-      </div>`;
-    document.body.appendChild(modal);
-    loginBtn.onclick = ()=> modal.classList.remove('hidden');
-    document.getElementById('copyAddr').onclick = async ()=>{
-      try { await navigator.clipboard.writeText("Stadionvej 1, 7600 Struer"); alert("Adresse kopieret!"); }
-      catch(e){ alert("Kunne ikke kopiere adressen."); }
-    };
-    modal.querySelector('#closeLogin').onclick = ()=> modal.classList.add('hidden');
-    modal.querySelector('#doLogin').onclick = ()=>{
-      const pwd = modal.querySelector('#liPwd').value;
-      if(pwd && pwd.length >= 4){ localStorage.setItem('humlumLoggedIn','1'); alert('Login OK (demo).'); modal.classList.add('hidden'); }
-      else { alert('Forkert kode (demo).'); }
-    };
-
-  </script>
-</body>
-</html>
+// ==============================
+// Developer notes
+// ==============================
+// 1) Place Home as pages/index.js (default export Home)
+// 2) Place SponsorPage as pages/sponsor.js (default export SponsorPage)
+// 3) CONTENT is a single source of truth – adjust text without touching layout
+// 4) LiveTicker is now a compact corner widget (no more dumb footer ticker)
+// 5) Family & Household section added (with household in signup form)
+// 6) Events are filterable by målgruppe (Alle, Familie, Ungdom, Voksne)
+// 7) Minimal CSS-in-JS – safe to run without Tailwind; upgrade later if you want
