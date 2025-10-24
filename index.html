@@ -1,17 +1,12 @@
-// ==============================
-// Humlum Dartklub — All‑in‑One Code v1
-// Next.js pages you can copy/paste.
-// Includes: Dynamic Hero, Family/Household focus, "Events for all" with filters,
-// Live Ticker (moved to compact top-right widget), Sponsor Package on separate page.
-// Styling is done with lightweight CSS-in-JS to avoid external setup issues.
-// If you already run Tailwind, you can replace classes later.
-// ==============================
+// pages/index.js
+import Head from "next/head";
+import { useState, useEffect } from "react";
 
-// ==============================
-// /lib/content.js (inline)
-// Central content config. You can move this to /data/content.json later.
-// ==============================
-export const CONTENT = {
+/* =========================
+   CENTRALT INDHOLD (CONTENT)
+   — alt kan redigeres her —
+========================= */
+const CONTENT = {
   site: {
     title: "Humlum Dartklub",
     motto: "Fællesskab & Præcision",
@@ -49,47 +44,12 @@ export const CONTENT = {
     { title: "Klubturnering #7", date: "2025-11-09", type: "Voksne", desc: "A/B-række – Swiss format" },
     { title: "Åben træning", date: "2025-10-28", type: "Alle", desc: "Kom og prøv – lån pile i klubben" },
   ],
-  sponsor: {
-    intro:
-      "Støt lokal forening og få synlighed i et aktivt fællesskab. Vælg en pakke – eller lad os skræddersy.",
-    tiers: [
-      {
-        name: "Bronze",
-        price: "DKK 2.500/år",
-        perks: [
-          "Logo på hjemmeside (sponsorvæg)",
-          "Tak på Facebook/Instagram",
-          "Klubcertifikat til butik/kontor",
-        ],
-      },
-      {
-        name: "Sølv",
-        price: "DKK 5.000/år",
-        perks: [
-          "Alt i Bronze",
-          "Logo på event‑rollup i hallen",
-          "Sponsoromtale ved events (speak)",
-        ],
-      },
-      {
-        name: "Guld",
-        price: "DKK 10.000/år",
-        perks: [
-          "Alt i Sølv",
-          "Logo på træningstrøjer (ærme)",
-          "Årlig firma‑dart aften (2 timer)",
-        ],
-      },
-    ],
-    contactNote: "Skriv til os for tilbud og plads på næste trykrunde.",
-  },
 };
 
-// ==============================
-// /components/UX.js (inline)
-// Small UI helpers (container, button, badge, card)
-// ==============================
-export const Container = ({ children, wide }) => (
+/* =========================
+   SMÅ UI-KOMPONENTER
+========================= */
+const Container = ({ children, wide }) => (
   <div className="container">
     {children}
     <style jsx>{`
@@ -98,7 +58,7 @@ export const Container = ({ children, wide }) => (
   </div>
 );
 
-export const Button = ({ href = "#", onClick, children, variant = "primary" }) => (
+const Button = ({ href = "#", onClick, children, variant = "primary" }) => (
   <a href={href} onClick={onClick} className={`btn ${variant}`}>
     {children}
     <style jsx>{`
@@ -110,28 +70,28 @@ export const Button = ({ href = "#", onClick, children, variant = "primary" }) =
   </a>
 );
 
-export const Badge = ({ children }) => (
-  <span className="badge">{children}
+const Badge = ({ children }) => (
+  <span className="badge">
+    {children}
     <style jsx>{`
       .badge { background:#eef7f1; color:#0b5; padding:4px 10px; border-radius:999px; font-size:12px; font-weight:600; }
     `}</style>
   </span>
 );
 
-export const Card = ({ children }) => (
-  <div className="card">{children}
+const Card = ({ children }) => (
+  <div className="card">
+    {children}
     <style jsx>{`
       .card { background:white; border:1px solid #eee; border-radius:16px; padding:16px; box-shadow:0 2px 12px rgba(0,0,0,0.04); }
     `}</style>
   </div>
 );
 
-// ==============================
-// /components/LiveTicker.js (inline)
-// Compact top-right widget (not in footer). Click to expand.
-// ==============================
-import { useState } from "react";
-export const LiveTicker = ({ items }) => {
+/* =========================
+   LIVE TICKER (hjørne-widget)
+========================= */
+const LiveTicker = ({ items }) => {
   const [open, setOpen] = useState(false);
   return (
     <>
@@ -159,11 +119,151 @@ export const LiveTicker = ({ items }) => {
   );
 };
 
-// ==============================
-// /pages/index.js — HOMEPAGE
-// ==============================
-import Head from "next/head";
+/* =========================
+   HJÆLPE-KOMPONENTER
+========================= */
+const SectionTitle = ({ title, subtitle, id }) => (
+  <div id={id} style={{ margin: "8px 0 10px" }}>
+    <h2 style={{ margin: "0 0 2px", fontSize: 28 }}>{title}</h2>
+    {subtitle && <p style={{ color: "#567" }}>{subtitle}</p>}
+  </div>
+);
 
+const RotatingLines = ({ lines, interval = 3000 }) => {
+  const [i, setI] = useState(0);
+  useEffect(() => {
+    const id = setInterval(() => setI(v => (v + 1) % lines.length), interval);
+    return () => clearInterval(id);
+  }, [lines, interval]);
+  return <p style={{ fontStyle: "italic", color: "#234" }}>{lines[i]}</p>;
+};
+
+const HeroStat = ({ label, value }) => (
+  <Card>
+    <div style={{ textAlign: "center" }}>
+      <div style={{ fontSize: 24, fontWeight: 800 }}>{value}</div>
+      <div style={{ color: "#567" }}>{label}</div>
+    </div>
+  </Card>
+);
+
+const th = { textAlign: "left", padding: "10px 8px", borderBottom: "1px solid #eee", color: "#345" };
+const td = { padding: "10px 8px", borderBottom: "1px solid #f3f3f3" };
+
+const TrainingTable = ({ rows }) => (
+  <Card>
+    <table style={{ width: "100%", borderCollapse: "collapse" }}>
+      <thead>
+        <tr>
+          <th style={th}>Hold</th>
+          <th style={th}>Tid</th>
+          <th style={th}>Note</th>
+        </tr>
+      </thead>
+      <tbody>
+        {rows.map((r, i) => (
+          <tr key={i}>
+            <td style={td}>{r.level}</td>
+            <td style={td}>{r.when}</td>
+            <td style={td}>{r.note}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </Card>
+);
+
+const EventsForAll = ({ items }) => {
+  const [filter, setFilter] = useState("Alle");
+  const categories = ["Alle", "Familie", "Ungdom", "Voksne"];
+  const list = items.filter(e => (filter === "Alle" ? true : e.type === filter));
+  return (
+    <>
+      <div style={{ display: "flex", gap: 8, flexWrap: "wrap", margin: "6px 0 12px" }}>
+        {categories.map(c => (
+          <button key={c} onClick={() => setFilter(c)} className={`pill ${filter === c ? "active" : ""}`}>{c}</button>
+        ))}
+      </div>
+      <div className="grid">
+        {list.map((e, i) => (
+          <Card key={i}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
+              <h3 style={{ margin: 0 }}>{e.title}</h3>
+              <Badge>{e.type}</Badge>
+            </div>
+            <p style={{ margin: "6px 0 0", color: "#456" }}>{e.desc}</p>
+            <p style={{ margin: "6px 0 0" }}><strong>{fmtDate(e.date)}</strong></p>
+          </Card>
+        ))}
+      </div>
+      <style jsx>{`
+        .grid { display:grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap:12px; }
+        @media (max-width:800px){ .grid { grid-template-columns:1fr; } }
+        .pill { border:1px solid #0b5; background:#fff; color:#0b5; padding:6px 10px; border-radius:999px; font-weight:700; cursor:pointer; }
+        .pill.active { background:#0b5; color:#fff; }
+      `}</style>
+    </>
+  );
+};
+
+const FamilyHousehold = () => (
+  <Card>
+    <ul style={{ margin: "0 0 0 16px" }}>
+      <li>Tryg intro for hele husstanden – lån pile i klubben</li>
+      <li>Forælder-barn træning med trænere til stede</li>
+      <li>Klubkodeks: respekt, sikkerhed og spilleglæde</li>
+      <li>Kaffe/saft-hjørne – pauser er også fællesskab</li>
+      <li>Mulighed for familie-medlemskab og rabat</li>
+    </ul>
+  </Card>
+);
+
+const SignupForm = () => {
+  const onSubmit = (e) => {
+    e.preventDefault();
+    alert("Tak! Vi vender tilbage i dag – tjek også din e-mail.");
+  };
+  return (
+    <Card>
+      <form onSubmit={onSubmit} style={{ display: "grid", gap: 10 }}>
+        <div style={{ display: "grid", gap: 8 }}>
+          <label>Navn<input required name="name" className="in" placeholder="Fornavn og efternavn" /></label>
+          <label>E-mail<input required type="email" name="email" className="in" placeholder="din@mail.dk" /></label>
+          <label>Husstand<select name="household" className="in">
+            <option>Enkelt</option>
+            <option>Par</option>
+            <option>Familie (forælder + barn/børn)</option>
+          </select></label>
+          <label>Niveau<select name="level" className="in">
+            <option>Begynder</option>
+            <option>Øvet</option>
+            <option>Elite</option>
+            <option>Ikke sikker endnu</option>
+          </select></label>
+          <label>Besked<textarea name="msg" className="in" rows={4} placeholder="Fortæl kort om jer – så matcher vi et hold" /></label>
+        </div>
+        <div><button className="submit">Send</button></div>
+      </form>
+      <style jsx>{`
+        label { display:grid; gap:6px; font-weight:600; color:#234; }
+        .in { padding:10px 12px; border:1px solid #dde3ea; border-radius:10px; font-size:15px; }
+        .submit { background:#0b5; color:#fff; font-weight:800; padding:12px 16px; border:none; border-radius:12px; cursor:pointer; }
+        .submit:hover{ opacity:0.9; }
+      `}</style>
+    </Card>
+  );
+};
+
+function fmtDate(s){
+  try {
+    const d = new Date(s + "T00:00:00");
+    return d.toLocaleDateString("da-DK", { weekday:"short", day:"2-digit", month:"short" });
+  } catch { return s; }
+}
+
+/* =========================
+   SELVE SIDEN
+========================= */
 export default function Home() {
   return (
     <>
@@ -264,210 +364,71 @@ export default function Home() {
   );
 }
 
-// ==============================
-// Inline subcomponents used on the homepage
-// ==============================
-function SectionTitle({ title, subtitle, id }){
-  return (
-    <div id={id} style={{margin:"8px 0 10px"}}>
-      <h2 style={{margin:"0 0 2px", fontSize:28}}>{title}</h2>
-      {subtitle && <p style={{color:"#567"}}>{subtitle}</p>}
-    </div>
-  );
-}
-
-function RotatingLines({ lines, interval = 3000 }){
-  const [i, setI] = useState(0);
-  useState(() => {
-    const id = setInterval(() => setI(v => (v + 1) % lines.length), interval);
-    return () => clearInterval(id);
-  }, [lines, interval]);
-  return <p style={{fontStyle:"italic", color:"#234"}}>{lines[i]}</p>;
-}
-
-function HeroStat({ label, value }){
-  return (
-    <Card>
-      <div style={{textAlign:"center"}}>
-        <div style={{fontSize:24, fontWeight:800}}>{value}</div>
-        <div style={{color:"#567"}}>{label}</div>
-      </div>
-    </Card>
-  );
-}
-
-function TrainingTable({ rows }){
-  return (
-    <Card>
-      <table style={{width:"100%", borderCollapse:"collapse"}}>
-        <thead>
-          <tr>
-            <th style={th}>Hold</th>
-            <th style={th}>Tid</th>
-            <th style={th}>Note</th>
-          </tr>
-        </thead>
-        <tbody>
-          {rows.map((r, i) => (
-            <tr key={i}>
-              <td style={td}>{r.level}</td>
-              <td style={td}>{r.when}</td>
-              <td style={td}>{r.note}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </Card>
-  );
-}
-
-const th = { textAlign:"left", padding:"10px 8px", borderBottom:"1px solid #eee", color:"#345" };
-const td = { padding:"10px 8px", borderBottom:"1px solid #f3f3f3" };
-
-function EventsForAll({ items }){
-  const [filter, setFilter] = useState("Alle");
-  const categories = ["Alle", "Familie", "Ungdom", "Voksne"];
-  const list = items.filter(e => filter === "Alle" ? true : e.type === filter);
+/* =========================
+   BONUS: Sponsor-side skabelon (kopiér til /pages/sponsor.js)
+   --- START KOPI ---
+import Head from "next/head";
+export default function SponsorPage(){
+  const tiers = [
+    {
+      name: "Bronze",
+      price: "DKK 2.500/år",
+      perks: [
+        "Logo på hjemmeside (sponsorvæg)",
+        "Tak på Facebook/Instagram",
+        "Klubcertifikat til butik/kontor",
+      ],
+    },
+    {
+      name: "Sølv",
+      price: "DKK 5.000/år",
+      perks: [
+        "Alt i Bronze",
+        "Logo på event-rollup i hallen",
+        "Sponsoromtale ved events (speak)",
+      ],
+    },
+    {
+      name: "Guld",
+      price: "DKK 10.000/år",
+      perks: [
+        "Alt i Sølv",
+        "Logo på træningstrøjer (ærme)",
+        "Årlig firma-dart aften (2 timer)",
+      ],
+    },
+  ];
   return (
     <>
-      <div style={{display:"flex", gap:8, flexWrap:"wrap", margin:"6px 0 12px"}}>
-        {categories.map(c => (
-          <button key={c} onClick={() => setFilter(c)} className={`pill ${filter===c?"active":""}`}>{c}</button>
-        ))}
-      </div>
-      <div className="grid">
-        {list.map((e, i) => (
-          <Card key={i}>
-            <div style={{display:"flex", justifyContent:"space-between", alignItems:"baseline"}}>
-              <h3 style={{margin:0}}>{e.title}</h3>
-              <Badge>{e.type}</Badge>
-            </div>
-            <p style={{margin:"6px 0 0", color:"#456"}}>{e.desc}</p>
-            <p style={{margin:"6px 0 0"}}><strong>{fmtDate(e.date)}</strong></p>
-          </Card>
-        ))}
-      </div>
-      <style jsx>{`
-        .grid { display:grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap:12px; }
-        @media (max-width:800px){ .grid { grid-template-columns:1fr; } }
-        .pill { border:1px solid #0b5; background:#fff; color:#0b5; padding:6px 10px; border-radius:999px; font-weight:700; cursor:pointer; }
-        .pill.active { background:#0b5; color:#fff; }
-      `}</style>
-    </>
-  );
-}
-
-function FamilyHousehold(){
-  return (
-    <Card>
-      <ul style={{margin:"0 0 0 16px"}}>
-        <li>Tryg intro for hele husstanden – lån pile i klubben</li>
-        <li>Forælder‑barn træning med trænere til stede</li>
-        <li>Klubkodeks: respekt, sikkerhed og spilleglæde</li>
-        <li>Kaffe/saft‑hjørne – pauser er også fællesskab</li>
-        <li>Mulighed for familie‑medlemskab og rabat</li>
-      </ul>
-    </Card>
-  );
-}
-
-function SignupForm(){
-  const onSubmit = (e) => {
-    e.preventDefault();
-    alert("Tak! Vi vender tilbage i dag – tjek også din e‑mail.");
-  };
-  return (
-    <Card>
-      <form onSubmit={onSubmit} style={{display:"grid", gap:10}}>
-        <div style={{display:"grid", gap:8}}>
-          <label>Navn<input required name="name" className="in" placeholder="Fornavn og efternavn"/></label>
-          <label>E‑mail<input required type="email" name="email" className="in" placeholder="din@mail.dk"/></label>
-          <label>Husstand<select name="household" className="in">
-            <option>Enkelt</option>
-            <option>Par</option>
-            <option>Familie (forælder + barn/børn)</option>
-          </select></label>
-          <label>Niveau<select name="level" className="in">
-            <option>Begynder</option>
-            <option>Øvet</option>
-            <option>Elite</option>
-            <option>Ikke sikker endnu</option>
-          </select></label>
-          <label>Besked<textarea name="msg" className="in" rows={4} placeholder="Fortæl kort om jer – så matcher vi et hold"/></label>
-        </div>
-        <div><button className="submit">Send</button></div>
-      </form>
-      <style jsx>{`
-        label { display:grid; gap:6px; font-weight:600; color:#234; }
-        .in { padding:10px 12px; border:1px solid #dde3ea; border-radius:10px; font-size:15px; }
-        .submit { background:#0b5; color:#fff; font-weight:800; padding:12px 16px; border:none; border-radius:12px; cursor:pointer; }
-        .submit:hover{ opacity:0.9; }
-      `}</style>
-    </Card>
-  );
-}
-
-function fmtDate(s){
-  try {
-    const d = new Date(s + "T00:00:00");
-    return d.toLocaleDateString("da-DK", { weekday:"short", day:"2-digit", month:"short" });
-  } catch { return s; }
-}
-
-// ==============================
-// /pages/sponsor.js — SPONSORPAKKER
-// Separate side som ønsket. Viser oversigt + fordele.
-// ==============================
-export function SponsorPage(){
-  return (
-    <>
-      <Head>
-        <title>Sponsorpakker – {CONTENT.site.title}</title>
-      </Head>
-      <Container>
-        <div style={{margin:"20px 0"}}>
-          <h1 style={{margin:"0 0 6px"}}>Sponsorpakker</h1>
-          <p style={{color:"#456"}}>{CONTENT.sponsor.intro}</p>
-        </div>
-        <div className="tiers">
-          {CONTENT.sponsor.tiers.map((t, i) => (
-            <Card key={i}>
+      <Head><title>Sponsorpakker – Humlum Dartklub</title></Head>
+      <div style={{maxWidth:920, margin:"0 auto", padding:20}}>
+        <h1 style={{margin:"0 0 6px"}}>Sponsorpakker</h1>
+        <p style={{color:"#456"}}>
+          Støt lokal forening og få synlighed i et aktivt fællesskab. Vælg en pakke – eller lad os skræddersy.
+        </p>
+        <div style={{ display:"grid", gridTemplateColumns:"repeat(3, minmax(0, 1fr))", gap:12, margin:"12px 0" }}>
+          {tiers.map((t, i) => (
+            <div key={i} style={{background:"#fff", border:"1px solid #eee", borderRadius:16, padding:16, boxShadow:"0 2px 12px rgba(0,0,0,0.04)"}}>
               <h2 style={{margin:"0 0 6px"}}>{t.name}</h2>
               <p><strong>{t.price}</strong></p>
               <ul style={{margin:"8px 0 0 18px"}}>
                 {t.perks.map((p, j) => <li key={j}>{p}</li>)}
               </ul>
               <div style={{marginTop:12}}>
-                <Button href={`mailto:${CONTENT.site.contactEmail}?subject=Sponsor%20${t.name}`}>Kontakt os</Button>
+                <a href={"mailto:kontakt@humlumdartklub.dk?subject=Sponsor%20" + t.name}
+                   style={{display:"inline-block", padding:"10px 16px", borderRadius:10, background:"#0b5", color:"#fff", fontWeight:600, textDecoration:"none"}}>
+                  Kontakt os
+                </a>
               </div>
-            </Card>
+            </div>
           ))}
         </div>
-        <Card>
-          <p style={{margin:0}}>{CONTENT.sponsor.contactNote}</p>
-        </Card>
-      </Container>
-      <style jsx>{`
-        .tiers { display:grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap:12px; margin: 12px 0; }
-        @media (max-width:900px){ .tiers{ grid-template-columns:1fr; } }
-      `}</style>
+        <div style={{background:"#fff", border:"1px solid #eee", borderRadius:16, padding:16}}>
+          <p style={{margin:0}}>Skriv til os for tilbud og plads på næste trykrunde.</p>
+        </div>
+      </div>
     </>
   );
 }
-
-// If using Next.js routing, save this as pages/sponsor.js:
-// export default SponsorPage;
-// If you need quick testing within a single file environment,
-// also export default below (comment out on real pages):
-export const Sponsor = SponsorPage;
-
-// ==============================
-// Developer notes
-// ==============================
-// 1) Place Home as pages/index.js (default export Home)
-// 2) Place SponsorPage as pages/sponsor.js (default export SponsorPage)
-// 3) CONTENT is a single source of truth – adjust text without touching layout
-// 4) LiveTicker is now a compact corner widget (no more dumb footer ticker)
-// 5) Family & Household section added (with household in signup form)
-// 6) Events are filterable by målgruppe (Alle, Familie, Ungdom, Voksne)
-// 7) Minimal CSS-in-JS – safe to run without Tailwind; upgrade later if you want
+   --- SLUT KOPI ---
+========================= */
