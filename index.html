@@ -3,297 +3,179 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Humlum Dartklub — Homepage Preview</title>
+  <title>Humlum Dartklub — Fællesskab & Præcision</title>
+  <meta name="description" content="Humlum Dartklub: træning, hygge og turneringer for alle niveauer. Se nyheder, PDC-info, træningsplan og tilmeld dig her." />
+  <link rel="icon" href="images/favicon.png" />
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    html { scroll-behavior: smooth; }
+    html { scroll-behavior:smooth; }
+    /* Live-ticker pause on hover */
+    #ticker:hover { animation-play-state: paused; }
+    /* Simple keyframes for marquee-like ticker */
+    @keyframes slideleft {
+      0% { transform: translateX(100%); }
+      100% { transform: translateX(-100%); }
+    }
   </style>
 </head>
-<body class="min-h-screen bg-white text-slate-800">
+<body class="min-h-screen text-slate-800 bg-[radial-gradient(ellipse_at_top,_#ecfeff_0%,_#ffffff_50%,_#f0fdfa_100%)]">
 
   <!-- Header -->
-  <header class="sticky top-0 z-40 bg-white/90 backdrop-blur border-b">
+  <header class="sticky top-0 z-50 bg-white/90 backdrop-blur border-b">
     <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
-
-      <!-- Logo + navn -->
       <a href="/" class="flex items-center gap-4">
-        <img src="images/logo DK.hvid.png" alt="Humlum Dartklub logo" class="h-20 w-20 md:h-24 md:w-24 object-contain cursor-pointer" />
+        <img src="images/logo DK.hvid.png" alt="Humlum Dartklub logo" class="h-16 w-16 object-contain" />
         <div>
-          <div class="font-extrabold tracking-tight leading-tight text-slate-900 text-xl">Humlum Dartklub</div>
-          <div class="text-sm text-slate-500 -mt-0.5">Fællesskab og Præcision</div>
+          <div class="text-2xl md:text-3xl font-extrabold tracking-tight leading-tight text-slate-900">Humlum Dartklub</div>
+          <div class="text-xs text-slate-500 -mt-0.5">Fællesskab & Præcision</div>
         </div>
       </a>
-
-      <!-- Desktop menu -->
-<nav class="hidden md:flex items-center gap-6 text-lg font-medium ml-4">
-        <a href="#about" class="hover:text-cyan-700">Om klubben</a>
-        <a href="#join" class="hover:text-cyan-700">Bliv medlem</a>
+      <nav class="hidden md:flex items-center gap-6 text-base font-medium">
+        <a href="#news" class="hover:text-cyan-700">Nyheder</a>
+        <a href="#training" class="hover:text-cyan-700">Træningsplan</a>
+        <a href="#pdc" class="hover:text-cyan-700">PDC</a>
         <a href="#events" class="hover:text-cyan-700">Aktiviteter</a>
-        <a href="#stats" class="hover:text-cyan-700">Statistik</a>
-        <a href="#lanes" class="hover:text-cyan-700">Baner & QR</a>
         <a href="#gallery" class="hover:text-cyan-700">Galleri</a>
-        <a href="#sponsors" class="hover:text-cyan-700">Sponsorer</a>
         <a href="#contact" class="hover:text-cyan-700">Kontakt</a>
-        <a href="#join" class="ml-2 inline-flex items-center justify-center rounded-2xl px-6 py-3 bg-emerald-600 text-white shadow hover:opacity-90">Tilmeld dig</a>
+        <a href="#join" class="ml-2 inline-flex items-center justify-center rounded-2xl px-5 py-2.5 bg-emerald-600 text-white shadow hover:opacity-90">Bliv medlem</a>
       </nav>
-
-      <!-- Burger knap -->
       <button id="burger" class="md:hidden inline-flex items-center justify-center h-10 w-10 rounded-xl border">
         <span class="sr-only">Åbn menu</span>
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5">
-          <path d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"/>
-        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"/></svg>
       </button>
-
     </div>
-
-    <!-- Mobilmenu -->
+    <!-- Live Ticker bar -->
+    <div class="border-t bg-white/90">
+      <div class="max-w-7xl mx-auto px-4 py-2 overflow-hidden relative">
+        <div id="ticker" class="whitespace-nowrap will-change-transform" style="animation: slideleft linear 25s infinite;"></div>
+      </div>
+    </div>
+    <!-- Mobile nav -->
     <div id="mobileNav" class="hidden md:hidden border-t">
       <div class="px-4 py-3 grid gap-2 text-base">
-        <a href="#about" class="py-2">Om klubben</a>
-        <a href="#join" class="py-2">Bliv medlem</a>
+        <a href="#news" class="py-2">Nyheder</a>
+        <a href="#training" class="py-2">Træningsplan</a>
+        <a href="#pdc" class="py-2">PDC</a>
         <a href="#events" class="py-2">Aktiviteter</a>
-        <a href="#stats" class="py-2">Statistik</a>
-        <a href="#lanes" class="py-2">Baner & QR</a>
         <a href="#gallery" class="py-2">Galleri</a>
-        <a href="#sponsors" class="py-2">Sponsorer</a>
         <a href="#contact" class="py-2">Kontakt</a>
-        <a href="#join" class="mt-1 inline-flex items-center justify-center rounded-2xl px-6 py-3 bg-emerald-600 text-white">Tilmeld dig</a>
+        <a href="#join" class="mt-1 inline-flex items-center justify-center rounded-2xl px-6 py-3 bg-emerald-600 text-white">Bliv medlem</a>
       </div>
     </div>
   </header>
 
-  <!-- Hero -->
-  <section id="hero" class="relative">
+  <!-- Hero / News -->
+  <section id="news" class="relative">
     <div class="absolute inset-0 -z-10 bg-gradient-to-br from-cyan-50 via-white to-emerald-50"></div>
-    <div class="max-w-7xl mx-auto px-4 py-16 md:py-24 grid md:grid-cols-2 gap-10 items-center">
+    <div class="max-w-7xl mx-auto px-4 py-12 md:py-16 grid md:grid-cols-2 gap-10 items-center">
       <div>
         <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight text-slate-900 leading-tight">
-          Dart for alle –
-          <span class="block text-transparent bg-clip-text bg-gradient-to-r from-cyan-600 to-emerald-600">fællesskab & præcision</span>
+          Dart for alle – <span class="block text-transparent bg-clip-text bg-gradient-to-r from-cyan-600 to-emerald-600">fællesskab & præcision</span>
         </h1>
         <p class="mt-4 text-slate-600 text-lg">
-          Humlum Dartklub er det lokale samlingspunkt for hygge, træning og turneringer. Uanset niveau er du velkommen.
+          Velkommen i Humlum Dartklub. Træning, hygge og turneringer – uanset niveau.
         </p>
+
+        <!-- News Slider -->
+        <div class="mt-6 rounded-2xl border bg-white/70 backdrop-blur shadow overflow-hidden">
+          <div class="px-4 py-3 flex items-center justify-between">
+            <div class="text-sm font-semibold text-slate-700">Klubnyheder</div>
+            <div class="flex items-center gap-2">
+              <button id="prevNews" class="h-8 w-8 grid place-content-center rounded-lg border hover:bg-slate-50" aria-label="Forrige nyhed">‹</button>
+              <button id="nextNews" class="h-8 w-8 grid place-content-center rounded-lg border hover:bg-slate-50" aria-label="Næste nyhed">›</button>
+            </div>
+          </div>
+          <div id="newsContent" class="px-4 pb-4 text-slate-700 text-sm min-h-[48px] grid items-center"></div>
+        </div>
+
+        <!-- CTA buttons -->
         <div class="mt-6 flex flex-wrap items-center gap-3">
           <a href="#join" class="rounded-2xl px-5 py-3 bg-emerald-600 text-white font-semibold shadow hover:opacity-90">Bliv medlem</a>
           <a href="#events" class="rounded-2xl px-5 py-3 border font-semibold hover:bg-slate-50">Se aktiviteter</a>
         </div>
+
+        <!-- Mini facts -->
         <ul class="mt-6 grid sm:grid-cols-3 gap-3 text-sm text-slate-600">
-          <li class="flex items-center gap-2">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-4 w-4 fill-emerald-600"><circle cx="12" cy="12" r="6"/></svg> Træningsaftener
-          </li>
-          <li class="flex items-center gap-2">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-4 w-4 fill-emerald-600"><circle cx="12" cy="12" r="6"/></svg> Begynderhold
-          </li>
-          <li class="flex items-center gap-2">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-4 w-4 fill-emerald-600"><circle cx="12" cy="12" r="6"/></svg> Ranglisteturnering
-          </li>
+          <li class="flex items-center gap-2"><span class="h-2.5 w-2.5 rounded-full bg-emerald-600"></span> Træning hver onsdag</li>
+          <li class="flex items-center gap-2"><span class="h-2.5 w-2.5 rounded-full bg-emerald-600"></span> Begynderhold</li>
+          <li class="flex items-center gap-2"><span class="h-2.5 w-2.5 rounded-full bg-emerald-600"></span> Ranglister & 180-klub</li>
         </ul>
       </div>
 
+      <!-- Countdown + Hero image -->
       <div class="relative">
         <div class="aspect-[4/3] rounded-3xl border bg-white shadow-sm overflow-hidden">
           <img alt="Dart hero" class="h-full w-full object-cover" src="https://images.unsplash.com/photo-1571731956672-c22282f11134?q=80&w=1400&auto=format&fit=crop" />
         </div>
         <div class="absolute -bottom-6 -right-4 md:-right-8 bg-white/90 backdrop-blur rounded-2xl border shadow px-4 py-3">
-          <p class="text-sm">Næste træning: <span class="font-semibold">Onsdag kl. 19:00</span></p>
+          <p class="text-sm">Næste aktivitet: <span id="nextEventTitle" class="font-semibold">TBA</span></p>
+          <p class="mt-1 text-xs text-slate-600"><span id="countdown">00d 00t 00m 00s</span> • <a href="#events" class="text-emerald-700 font-semibold">Detaljer</a></p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ABOUT -->
-  <section id="about" class="py-16 border-t bg-white">
-    <div class="max-w-7xl mx-auto px-4 grid md:grid-cols-2 gap-10 items-start">
-      <div>
-        <h2 class="text-2xl md:text-3xl font-extrabold tracking-tight">Om klubben</h2>
-        <p class="mt-4 text-slate-600 leading-relaxed">
-          Vi er en frivillig forening baseret i Humlum med fokus på både socialt samvær og sportslig udvikling. Vores motto er simpelt: <em>Fællesskab og Præcision</em>.
-        </p>
-        <ul class="mt-6 grid gap-3 text-slate-700 list-disc pl-5">
-          <li>Åbent for alle aldre og niveauer</li>
-          <li>Trænerteam med fokus på teknik og mentaltræning</li>
-          <li>Ugentlige træninger og månedlige turneringer</li>
-          <li>Samarbejder med lokale virksomheder og skoler</li>
-        </ul>
-      </div>
-      <div class="grid sm:grid-cols-2 gap-4">
-        <div class="rounded-2xl border p-5 shadow-sm">
-          <div class="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-br from-cyan-600 to-emerald-600">1</div>
-          <div class="mt-2 font-semibold">Træning hver onsdag</div>
-        </div>
-        <div class="rounded-2xl border p-5 shadow-sm">
-          <div class="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-br from-cyan-600 to-emerald-600">2</div>
-          <div class="mt-2 font-semibold">Begynder-intro hver første torsdag</div>
-        </div>
-        <div class="rounded-2xl border p-5 shadow-sm">
-          <div class="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-br from-cyan-600 to-emerald-600">3</div>
-          <div class="mt-2 font-semibold">Klubrangliste & 180-klub</div>
-        </div>
-        <div class="rounded-2xl border p-5 shadow-sm">
-          <div class="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-br from-cyan-600 to-emerald-600">4</div>
-          <div class="mt-2 font-semibold">Familieaftener og hyggeturneringer</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- JOIN -->
-  <section id="join" class="py-16 bg-gradient-to-b from-emerald-50/60 to-cyan-50/60 border-y">
+  <!-- Training Plan -->
+  <section id="training" class="py-16 bg-gradient-to-b from-emerald-50/60 to-cyan-50/60 border-y">
     <div class="max-w-7xl mx-auto px-4">
-      <h2 class="text-2xl md:text-3xl font-extrabold tracking-tight">Bliv medlem</h2>
-      <p class="mt-3 text-slate-600 max-w-2xl">Vælg dit niveau – vi har gjort det nemt at komme i gang.</p>
-      <div class="mt-8 grid md:grid-cols-3 gap-6">
-        <div class="rounded-3xl border shadow-sm p-6 bg-white">
-          <div class="flex items-baseline justify-between">
-            <h3 class="text-xl font-bold">Begynder</h3>
-            <div class="text-sm text-slate-500">DKK 50/md</div>
-          </div>
-          <ul class="mt-4 grid gap-2 text-sm text-slate-700 list-disc pl-5">
-            <li>Introtræning</li><li>Udstyrslån</li><li>Sociale events</li>
-          </ul>
-          <a href="#contact" class="mt-6 inline-flex items-center justify-center w-full rounded-2xl px-4 py-2 bg-emerald-600 text-white font-semibold hover:opacity-90">Tilmeld interesse</a>
+      <div class="flex items-end justify-between gap-4">
+        <div>
+          <h2 class="text-2xl md:text-3xl font-extrabold tracking-tight">Træningsplan — alle niveauer</h2>
+          <p class="mt-2 text-slate-600">Struktureret ugerytme for begynder, klub og pro.</p>
         </div>
-        <div class="rounded-3xl border shadow-sm p-6 bg-white ring-2 ring-emerald-500">
-          <div class="flex items-baseline justify-between">
-            <h3 class="text-xl font-bold">Klub</h3>
-            <div class="text-sm text-slate-500">DKK 99/md</div>
-          </div>
-          <ul class="mt-4 grid gap-2 text-sm text-slate-700 list-disc pl-5">
-            <li>Ugentlig træning</li><li>Klubturnering</li><li>Rabat i caféen</li>
-          </ul>
-          <a href="#contact" class="mt-6 inline-flex items-center justify-center w-full rounded-2xl px-4 py-2 bg-emerald-600 text-white font-semibold hover:opacity-90">Tilmeld interesse</a>
-        </div>
-        <div class="rounded-3xl border shadow-sm p-6 bg-white">
-          <div class="flex items-baseline justify-between">
-            <h3 class="text-xl font-bold">Pro</h3>
-            <div class="text-sm text-slate-500">DKK 149/md</div>
-          </div>
-          <ul class="mt-4 grid gap-2 text-sm text-slate-700 list-disc pl-5">
-            <li>Udvidet træning</li><li>Licens support</li><li>Turneringsrejser</li>
-          </ul>
-          <a href="#contact" class="mt-6 inline-flex items-center justify-center w-full rounded-2xl px-4 py-2 bg-emerald-600 text-white font-semibold hover:opacity-90">Tilmeld interesse</a>
-        </div>
+        <a href="#join" class="hidden md:inline-flex items-center justify-center rounded-2xl px-4 py-2 bg-emerald-600 text-white text-sm font-semibold hover:opacity-90">Tilmeld interesse</a>
+      </div>
+
+      <div id="trainingGrid" class="mt-8 grid md:grid-cols-3 gap-6"></div>
+
+      <!-- Printable table -->
+      <div class="mt-8 rounded-3xl border bg-white p-6 shadow-sm overflow-x-auto">
+        <h3 class="text-lg font-bold">Ugeoversigt (print-venlig)</h3>
+        <table class="mt-4 w-full text-sm">
+          <thead>
+            <tr class="text-left text-slate-500 border-b">
+              <th class="py-2">Dag</th>
+              <th class="py-2">Tid</th>
+              <th class="py-2">Hold</th>
+              <th class="py-2">Fokus</th>
+            </tr>
+          </thead>
+          <tbody id="trainingTable"></tbody>
+        </table>
       </div>
     </div>
   </section>
 
-  <!-- EVENTS -->
+  <!-- PDC Section -->
+  <section id="pdc" class="py-16 bg-white">
+    <div class="max-w-7xl mx-auto px-4">
+      <div class="flex items-end justify-between gap-4">
+        <div>
+          <h2 class="text-2xl md:text-3xl font-extrabold tracking-tight">PDC — internationale turneringer</h2>
+          <p class="mt-2 text-slate-600">Hold dig opdateret på de største scener. (Klub-kurateret oversigt.)</p>
+        </div>
+        <a href="https://www.pdc.tv/" target="_blank" rel="noopener" class="hidden md:inline-flex items-center justify-center rounded-2xl px-4 py-2 border text-sm font-semibold hover:bg-slate-50">Besøg PDC.tv</a>
+      </div>
+
+      <div id="pdcGrid" class="mt-8 grid md:grid-cols-3 gap-6"></div>
+      <p class="mt-4 text-xs text-slate-500">Tip: Opdater listen nederst i scriptet (pdcEvents[]) – ingen kodning krævet.</p>
+    </div>
+  </section>
+
+  <!-- Events -->
   <section id="events" class="py-16 bg-white">
     <div class="max-w-7xl mx-auto px-4">
       <div class="flex items-end justify-between gap-4">
         <div>
           <h2 class="text-2xl md:text-3xl font-extrabold tracking-tight">Aktiviteter & turneringer</h2>
-          <p class="mt-2 text-slate-600">Her er et udvalg af kommende arrangementer.</p>
+          <p class="mt-2 text-slate-600">Næste op til 6 klub-aktiviteter.</p>
         </div>
       </div>
-      <div class="mt-8 grid md:grid-cols-3 gap-6">
-        <article class="rounded-2xl border p-5 shadow-sm">
-          <div class="text-sm text-slate-500">Ons 29/10 · Klublokalet</div>
-          <h3 class="mt-1 font-semibold">Træning – Fokus på Triple 20</h3>
-          <a href="#contact" class="mt-3 inline-flex text-sm text-emerald-700 font-semibold">Tilmeld ·→</a>
-        </article>
-        <article class="rounded-2xl border p-5 shadow-sm">
-          <div class="text-sm text-slate-500">Lør 08/11 · Multihallen</div>
-          <h3 class="mt-1 font-semibold">Hyggeturnering – 501</h3>
-          <a href="#contact" class="mt-3 inline-flex text-sm text-emerald-700 font-semibold">Tilmeld ·→</a>
-        </article>
-        <article class="rounded-2xl border p-5 shadow-sm">
-          <div class="text-sm text-slate-500">Fre 21/11 · Klublokalet</div>
-          <h3 class="mt-1 font-semibold">Rangliste #4</h3>
-          <a href="#contact" class="mt-3 inline-flex text-sm text-emerald-700 font-semibold">Tilmeld ·→</a>
-        </article>
-      </div>
+      <div id="eventGrid" class="mt-8 grid md:grid-cols-3 gap-6"></div>
     </div>
   </section>
 
-  <!-- STATS -->
-  <section id="stats" class="py-16 bg-gradient-to-t from-cyan-50/60 to-emerald-50/60 border-y">
-    <div class="max-w-7xl mx-auto px-4">
-      <h2 class="text-2xl md:text-3xl font-extrabold tracking-tight">Statistik & ranglister</h2>
-      <div class="mt-8 grid lg:grid-cols-3 gap-6">
-        <div class="lg:col-span-2 rounded-3xl border bg-white p-6 shadow-sm">
-          <h3 class="text-lg font-bold">Rangliste (point)</h3>
-          <table class="mt-4 w-full text-sm">
-            <thead>
-              <tr class="text-left text-slate-500 border-b">
-                <th class="py-2">#</th>
-                <th class="py-2">Spiller</th>
-                <th class="py-2 text-right">Point</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr class="border-b"><td class="py-2">1</td><td class="py-2">Ernst K.</td><td class="py-2 text-right font-semibold">148</td></tr>
-              <tr class="border-b"><td class="py-2">2</td><td class="py-2">Mia H.</td><td class="py-2 text-right font-semibold">142</td></tr>
-              <tr><td class="py-2">3</td><td class="py-2">Jonas P.</td><td class="py-2 text-right font-semibold">127</td></tr>
-            </tbody>
-          </table>
-        </div>
-        <div class="grid gap-6">
-          <div class="rounded-3xl border bg-white p-6 shadow-sm">
-            <h3 class="text-lg font-bold">180-klub</h3>
-            <ul class="mt-3 grid gap-2 text-sm">
-              <li class="flex items-center justify-between"><span>Ernst K.</span><span class="font-semibold">×5</span></li>
-              <li class="flex items-center justify-between"><span>Mia H.</span><span class="font-semibold">×3</span></li>
-              <li class="flex items-center justify-between"><span>Jonas P.</span><span class="font-semibold">×2</span></li>
-            </ul>
-          </div>
-          <div class="rounded-3xl border bg-white p-6 shadow-sm">
-            <h3 class="text-lg font-bold">Højeste lukker</h3>
-            <ul class="mt-3 grid gap-2 text-sm">
-              <li class="flex items-center justify-between"><span>Mia H.</span><span class="font-semibold">164</span></li>
-              <li class="flex items-center justify-between"><span>Ernst K.</span><span class="font-semibold">156</span></li>
-              <li class="flex items-center justify-between"><span>Lars T.</span><span class="font-semibold">152</span></li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- LANES -->
-  <section id="lanes" class="py-16 bg-white">
-    <div class="max-w-7xl mx-auto px-4">
-      <h2 class="text-2xl md:text-3xl font-extrabold tracking-tight">Baner & QR-koder</h2>
-      <p class="mt-2 text-slate-600">Scan på banen for at booke eller registrere score. (Demo-links.)</p>
-      <div class="mt-6 grid sm:grid-cols-2 md:grid-cols-4 gap-6">
-        <script>
-          const laneWrap = document.currentScript.parentElement;
-          for(let i=1;i<=8;i++){
-            const el = document.createElement('article');
-            el.className = "rounded-2xl border p-5 shadow-sm grid gap-3";
-            el.innerHTML = `
-              <div class="flex items-center justify-between">
-                <div class="font-semibold">Bane ${i}</div>
-                <span class="text-xs px-2 py-0.5 rounded-full bg-cyan-50 text-cyan-700 border">QR</span>
-              </div>
-              <div class="aspect-square rounded-xl border grid place-content-center bg-slate-50">
-                <svg viewBox="0 0 120 120" class="w-28 h-28">
-                  <rect x="0" y="0" width="120" height="120" fill="#ffffff" stroke="#e2e8f0"></rect>
-                  <rect x="8" y="8" width="28" height="28" fill="#0ea5e9"></rect>
-                  <rect x="84" y="8" width="28" height="28" fill="#0ea5e9"></rect>
-                  <rect x="8" y="84" width="28" height="28" fill="#0ea5e9"></rect>
-                  <rect x="44" y="44" width="12" height="12" fill="#0ea5e9"></rect>
-                  <rect x="60" y="44" width="8" height="8" fill="#0ea5e9"></rect>
-                  <rect x="44" y="60" width="8" height="8" fill="#0ea5e9"></rect>
-                  <rect x="70" y="60" width="16" height="16" fill="#0ea5e9"></rect>
-                  <rect x="92" y="44" width="8" height="8" fill="#0ea5e9"></rect>
-                </svg>
-              </div>
-              <div class="text-xs text-slate-500 break-all">/score?lane=${i}</div>
-              <div class="grid grid-cols-2 gap-2 text-sm">
-                <a class="rounded-xl border px-3 py-2 text-center hover:bg-slate-50" href="#score">Score</a>
-                <a class="rounded-xl border px-3 py-2 text-center hover:bg-slate-50" href="#book">Book</a>
-              </div>`;
-            laneWrap.appendChild(el);
-          }
-        </script>
-      </div>
-    </div>
-  </section>
-
-  <!-- GALLERY -->
+  <!-- Gallery -->
   <section id="gallery" class="py-16 bg-white border-t">
     <div class="max-w-7xl mx-auto px-4">
       <h2 class="text-2xl md:text-3xl font-extrabold tracking-tight">Galleri</h2>
@@ -315,7 +197,7 @@
     </div>
   </section>
 
-  <!-- SPONSORS -->
+  <!-- Sponsors -->
   <section id="sponsors" class="py-16 bg-gradient-to-b from-emerald-50/60 to-cyan-50/60 border-y">
     <div class="max-w-7xl mx-auto px-4">
       <h2 class="text-2xl md:text-3xl font-extrabold tracking-tight">Sponsorer</h2>
@@ -340,25 +222,38 @@
     </div>
   </section>
 
-  <!-- CONTACT -->
+  <!-- Contact -->
   <section id="contact" class="py-16 bg-gradient-to-t from-cyan-50/60 to-emerald-50/60 border-t">
     <div class="max-w-3xl mx-auto px-4">
-      <h2 class="text-2xl md:text-3xl font-extrabold tracking-tight text-center">Kontakt & tilmelding</h2>
+      <h2 class="text-2xl md:text-3xl font-extrabold tracking-tight text-center">Kontakt & find vej</h2>
       <p class="mt-2 text-slate-600 text-center">Skriv til os – vi svarer hurtigst muligt.</p>
-      <form class="mt-8 grid gap-4">
-        <div class="grid md:grid-cols-2 gap-4">
-          <label class="grid gap-1 text-sm"><span class="font-medium text-slate-700">Navn</span><input class="rounded-xl border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-500" placeholder="Dit navn"></label>
-          <label class="grid gap-1 text-sm"><span class="font-medium text-slate-700">Email</span><input class="rounded-xl border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-500" placeholder="din@email.dk"></label>
+
+      <div class="mt-8 grid md:grid-cols-2 gap-6">
+        <div class="rounded-2xl border overflow-hidden">
+          <!-- Skift adressen i src-URL’en hvis I vil have præcis placering -->
+          <iframe class="w-full h-64" style="border:0" loading="lazy" allowfullscreen
+            src="https://www.google.com/maps?q=Stadionvej%201,%207600%20Struer&output=embed"></iframe>
+          <div class="px-4 py-3 border-t text-sm">
+            Stadionvej 1, 7600 Struer · CVR 12345678
+            <div class="mt-2 flex gap-2">
+              <a class="text-emerald-700 font-semibold" target="_blank" rel="noopener"
+                 href="https://www.google.com/maps/dir/?api=1&destination=Stadionvej+1,+7600+Struer">Rutevejledning</a>
+              <button id="copyAddr" class="text-slate-700 underline-offset-2 hover:underline">Kopiér adresse</button>
+            </div>
+          </div>
         </div>
-        <label class="grid gap-1 text-sm"><span class="font-medium text-slate-700">Emne</span><input class="rounded-xl border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-500" placeholder="Jeg vil gerne høre om medlemskab"></label>
-        <label class="grid gap-1 text-sm"><span class="font-medium text-slate-700">Besked</span><textarea rows="5" class="rounded-xl border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-500" placeholder="Skriv lidt om dig selv og dit niveau…"></textarea></label>
-        <button type="button" class="mt-2 inline-flex justify-center rounded-2xl px-5 py-3 bg-emerald-600 text-white font-semibold shadow hover:opacity-90">Send besked</button>
-        <p class="text-xs text-center text-slate-500">Ved at indsende accepterer du vores privatlivspolitik.</p>
-      </form>
+        <form class="rounded-2xl border p-4 grid gap-3 text-sm bg-white">
+          <label class="grid gap-1"><span class="font-medium text-slate-700">Navn</span><input class="rounded-xl border px-3 py-2" placeholder="Dit navn"></label>
+          <label class="grid gap-1"><span class="font-medium text-slate-700">Email</span><input class="rounded-xl border px-3 py-2" placeholder="din@email.dk"></label>
+          <label class="grid gap-1"><span class="font-medium text-slate-700">Besked</span><textarea rows="5" class="rounded-xl border px-3 py-2" placeholder="Skriv gerne lidt…"></textarea></label>
+          <button type="button" class="mt-1 inline-flex justify-center rounded-2xl px-5 py-3 bg-emerald-600 text-white font-semibold shadow hover:opacity-90">Send</button>
+          <p class="text-xs text-slate-500">Ved at indsende accepterer du vores privatlivspolitik.</p>
+        </form>
+      </div>
     </div>
   </section>
 
-  <!-- FOOTER -->
+  <!-- Footer -->
   <footer class="py-10 border-t bg-white">
     <div class="max-w-7xl mx-auto px-4 grid md:grid-cols-3 gap-8 items-start">
       <div>
@@ -369,12 +264,11 @@
       <div class="text-sm">
         <div class="font-semibold">Menu</div>
         <ul class="mt-2 grid gap-1">
-          <li><a href="#about" class="hover:text-cyan-700">Om klubben</a></li>
-          <li><a href="#join" class="hover:text-cyan-700">Medlemskab</a></li>
+          <li><a href="#news" class="hover:text-cyan-700">Nyheder</a></li>
+          <li><a href="#training" class="hover:text-cyan-700">Træningsplan</a></li>
+          <li><a href="#pdc" class="hover:text-cyan-700">PDC</a></li>
           <li><a href="#events" class="hover:text-cyan-700">Aktiviteter</a></li>
-          <li><a href="#stats" class="hover:text-cyan-700">Statistik</a></li>
-          <li><a href="#lanes" class="hover:text-cyan-700">Baner & QR</a></li>
-          <li><a href="#sponsors" class="hover:text-cyan-700">Sponsorer</a></li>
+          <li><a href="#gallery" class="hover:text-cyan-700">Galleri</a></li>
           <li><a href="#contact" class="hover:text-cyan-700">Kontakt</a></li>
         </ul>
       </div>
@@ -390,13 +284,128 @@
     <div class="mt-10 text-center text-xs text-slate-500">© <span id="year"></span> Humlum Dartklub. Alle rettigheder forbeholdes.</div>
   </footer>
 
+  <!-- ====== DATA & LOGIK (REDIGÉR BLOT ARRAYS) ====== -->
   <script>
+    // --- Live Ticker (kører henover toppen) ---
+    const tickerItems = [
+      "Onsdag 19:00: Træning — alle niveauer velkomne",
+      "Lør 08/11: Hyggeturnering 501 — Tilmeld i 'Aktiviteter'",
+      "Sponsor nyhed: Tak til Struer Energi",
+      "Begynderintro hver første torsdag"
+    ];
+    const ticker = document.getElementById("ticker");
+    ticker.innerHTML = `<div class="inline-block">${tickerItems.join(" · &nbsp;&nbsp;")}</div>`;
+
+    // --- Nyhedsslider (hero-boksen) ---
+    const newsItems = [
+      "Nye klubtrøjer på vej – prøvning næste uge.",
+      "Partner Cup åbner for tilmelding i dag!",
+      "Begynderhold: Gratis intro hver 1. torsdag i måneden.",
+      "Rangliste opdateret — se top 10 under Statistik."
+    ];
+    let newsIndex = 0;
+    const newsEl = document.getElementById("newsContent");
+    function renderNews(){ newsEl.textContent = newsItems[newsIndex]; }
+    document.getElementById("prevNews").onclick = () => { newsIndex = (newsIndex - 1 + newsItems.length) % newsItems.length; renderNews(); };
+    document.getElementById("nextNews").onclick = () => { newsIndex = (newsIndex + 1) % newsItems.length; renderNews(); };
+    setInterval(()=>{ newsIndex = (newsIndex + 1) % newsItems.length; renderNews(); }, 6000);
+    renderNews();
+
+    // --- Træningsplan (kort + tabel) ---
+    const trainings = [
+      { level:"Begynder", color:"from-emerald-500 to-cyan-600", focus:"Grips, stance, sighting", times:["Ons 18:00–19:00"] },
+      { level:"Klub", color:"from-cyan-600 to-emerald-600", focus:"Dobbelt-træning, 501-legs", times:["Ons 19:00–20:30"] },
+      { level:"Pro", color:"from-sky-700 to-emerald-700", focus:"Checkout-ruter, pres-spil", times:["Fre 17:00–18:30"] },
+    ];
+    const trainingGrid = document.getElementById("trainingGrid");
+    trainings.forEach(t=>{
+      const el = document.createElement("article");
+      el.className = "rounded-3xl border shadow-sm overflow-hidden bg-white";
+      el.innerHTML = `
+        <div class="px-5 py-4 border-b bg-gradient-to-r ${t.color} text-white">
+          <div class="text-lg font-bold">${t.level}</div>
+          <div class="text-xs opacity-90">Fokus: ${t.focus}</div>
+        </div>
+        <div class="p-5 text-sm text-slate-700 grid gap-1">
+          ${t.times.map(x=>`<div class="flex items-center gap-2"><span class="h-2 w-2 rounded-full bg-emerald-600"></span>${x}</div>`).join("")}
+        </div>`;
+      trainingGrid.appendChild(el);
+    });
+    const trainingTable = document.getElementById("trainingTable");
+    const weekRows = [
+      ["Onsdag","18:00–19:00","Begynder","Grips, stance, sighting"],
+      ["Onsdag","19:00–20:30","Klub","Dobbelt-træning, 501-legs"],
+      ["Fredag","17:00–18:30","Pro","Checkout-ruter, pres-spil"]
+    ];
+    trainingTable.innerHTML = weekRows.map(r=>`<tr class="border-b"><td class="py-2">${r[0]}</td><td class="py-2">${r[1]}</td><td class="py-2">${r[2]}</td><td class="py-2">${r[3]}</td></tr>`).join("");
+
+    // --- PDC sektion (manuelt kurateret for nu) ---
+    const pdcEvents = [
+      { date:"2025-01-03", title:"PDC World Championship — Finals", note:"Se med på PDC.tv", link:"https://www.pdc.tv/" },
+      { date:"2025-02-10", title:"Premier League Night 1", note:"Top 8 battle", link:"https://www.pdc.tv/" },
+      { date:"2025-03-05", title:"UK Open", note:"Alle mod alle – kaos og magi", link:"https://www.pdc.tv/" }
+    ];
+    const pdcGrid = document.getElementById("pdcGrid");
+    pdcEvents.forEach(e=>{
+      const a = document.createElement("article");
+      a.className = "rounded-2xl border p-5 shadow-sm bg-white hover:shadow-md transition";
+      a.innerHTML = `
+        <div class="text-sm text-slate-500">${new Date(e.date).toLocaleDateString('da-DK',{weekday:'short', day:'2-digit', month:'2-digit', year:'numeric'})}</div>
+        <h3 class="mt-1 font-semibold">${e.title}</h3>
+        <p class="mt-1 text-sm text-slate-600">${e.note}</p>
+        <a href="${e.link}" target="_blank" rel="noopener" class="mt-3 inline-flex text-sm text-emerald-700 font-semibold">Læs mere ·→</a>
+      `;
+      pdcGrid.appendChild(a);
+    });
+
+    // --- Klub events (forsimplet) ---
+    const clubEvents = [
+      { date:"2025-10-29T19:00:00", place:"Klublokalet", title:"Træning – Fokus på T20" },
+      { date:"2025-11-08T12:00:00", place:"Multihallen", title:"Hyggeturnering – 501" },
+      { date:"2025-11-21T18:00:00", place:"Klublokalet", title:"Rangliste #4" }
+    ];
+    const eventGrid = document.getElementById("eventGrid");
+    clubEvents.forEach(e=>{
+      const d = new Date(e.date);
+      const card = document.createElement("article");
+      card.className = "rounded-2xl border p-5 shadow-sm bg-white";
+      card.innerHTML = `
+        <div class="text-sm text-slate-500">${d.toLocaleDateString('da-DK',{weekday:'short', day:'2-digit', month:'2-digit'})} · ${e.place}</div>
+        <h3 class="mt-1 font-semibold">${e.title}</h3>
+        <a href="#contact" class="mt-3 inline-flex text-sm text-emerald-700 font-semibold">Tilmeld ·→</a>
+      `;
+      eventGrid.appendChild(card);
+    });
+
+    // --- Countdown til næste aktivitet (fra clubEvents) ---
+    const nextEvent = clubEvents.slice().sort((a,b)=> new Date(a.date)-new Date(b.date)).find(e=> new Date(e.date) > new Date());
+    const nextEventTitle = document.getElementById("nextEventTitle");
+    if(nextEvent){ nextEventTitle.textContent = nextEvent.title; }
+    const countdownEl = document.getElementById("countdown");
+    function tick(){
+      if(!nextEvent){ countdownEl.textContent = "Planlæg næste aktivitet"; return; }
+      const t = new Date(nextEvent.date) - new Date();
+      if(t<=0){ countdownEl.textContent = "NU!"; return; }
+      const s = Math.floor(t/1000);
+      const d = Math.floor(s/86400);
+      const h = Math.floor((s%86400)/3600);
+      const m = Math.floor((s%3600)/60);
+      const sec = s%60;
+      countdownEl.textContent = `${String(d).padStart(2,'0')}d ${String(h).padStart(2,'0')}t ${String(m).padStart(2,'0')}m ${String(sec).padStart(2,'0')}s`;
+    }
+    setInterval(tick, 1000); tick();
+
+    // --- Copy adresse ---
+    document.getElementById('copyAddr').onclick = async ()=>{
+      try { await navigator.clipboard.writeText("Stadionvej 1, 7600 Struer"); alert("Adresse kopieret!"); }
+      catch(e){ alert("Kunne ikke kopiere adressen."); }
+    };
+
+    // --- Footer år + burger menu ---
     document.getElementById('year').textContent = new Date().getFullYear();
     document.getElementById('burger').addEventListener('click', ()=>{
-      const m = document.getElementById('mobileNav');
-      m.classList.toggle('hidden');
+      document.getElementById('mobileNav').classList.toggle('hidden');
     });
   </script>
-
 </body>
 </html>
