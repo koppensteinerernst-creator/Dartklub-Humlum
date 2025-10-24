@@ -4,15 +4,16 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Sponsorpakker — Humlum Dartklub</title>
-  <meta name="description" content="Bliv sponsor i Humlum Dartklub. Se Bronze, Sølv og Guld, sammenlign fordele, tilkøb og kontakt os for skræddersyede løsninger." />
+  <meta name="description" content="Bliv sponsor i Humlum Dartklub. Vælg Bronze, Sølv eller Guld, tilkøb muligheder, og udfyld aftalen direkte." />
   <link rel="icon" href="images/favicon.png" />
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    html { scroll-behavior: smooth; }
-    .card { background:#fff; border:1px solid #e5e7eb; border-radius:16px; box-shadow:0 2px 12px rgba(0,0,0,.04);}
-    .grad { background:linear-gradient(180deg,#ecfeff, #ffffff 50%, #f0fdfa); }
-    .check::before{content:"✓"; display:inline-block; margin-right:.5rem; font-weight:700; }
-    .x::before{content:"—"; display:inline-block; margin-right:.6rem; color:#94a3b8;}
+    html { scroll-behavior:smooth }
+    .card{ background:#fff; border:1px solid #e5e7eb; border-radius:16px; box-shadow:0 2px 12px rgba(0,0,0,.04);}
+    .grad{ background:linear-gradient(180deg,#ecfeff, #ffffff 50%, #f0fdfa) }
+    .tilkob:checked + label { border-color: rgb(5 150 105); background:#ecfdf5 }
+    .tier-selected{ outline:3px solid rgb(16 185 129); }
+    dialog::backdrop { background: rgba(2,6,23,.56) }
   </style>
 </head>
 <body class="min-h-screen text-slate-800 bg-white">
@@ -30,7 +31,6 @@
         <a href="#tiers" class="hover:text-emerald-700">Pakker</a>
         <a href="#compare" class="hover:text-emerald-700">Sammenlign</a>
         <a href="#addons" class="hover:text-emerald-700">Tilkøb</a>
-        <a href="#faq" class="hover:text-emerald-700">FAQ</a>
         <a href="#kontakt" class="ml-2 inline-flex items-center justify-center rounded-2xl px-4 py-2 bg-emerald-600 text-white">Kontakt</a>
       </nav>
     </div>
@@ -44,83 +44,85 @@
           Sponsorpakker der <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-cyan-600">skaber lokal værdi</span>
         </h1>
         <p class="mt-3 text-slate-600 text-lg">
-          Støt “Fællesskab & Præcision” – få synlighed, relationer og konkrete klub-aktiver.
+          Vælg Bronze, Sølv eller Guld — og udfyld aftalen direkte. Klik, vælg, send. Nemt.
         </p>
         <div class="mt-6 flex flex-wrap gap-3">
           <a href="#tiers" class="rounded-2xl px-5 py-3 bg-emerald-600 text-white font-semibold hover:opacity-90">Se pakker</a>
           <a href="#kontakt" class="rounded-2xl px-5 py-3 border font-semibold hover:bg-slate-50">Skræddersy aftale</a>
-          <a href="docs/sponsorpakke.pdf" class="rounded-2xl px-5 py-3 border font-semibold hover:bg-slate-50">Download PDF</a>
         </div>
-        <ul class="mt-6 grid sm:grid-cols-3 gap-3 text-sm text-slate-600">
-          <li class="flex items-center gap-2"><span class="h-2.5 w-2.5 rounded-full bg-emerald-600"></span> Logo & omtale</li>
-          <li class="flex items-center gap-2"><span class="h-2.5 w-2.5 rounded-full bg-emerald-600"></span> Events & relationer</li>
-          <li class="flex items-center gap-2"><span class="h-2.5 w-2.5 rounded-full bg-emerald-600"></span> Ungdom & familier</li>
-        </ul>
       </div>
       <div class="relative">
         <div class="aspect-[4/3] card overflow-hidden">
           <img alt="Dart sponsorskab" class="h-full w-full object-cover" src="https://images.unsplash.com/photo-1602711675859-876b85b1bdda?q=80&w=1400&auto=format&fit=crop" />
         </div>
-        <div class="absolute -bottom-5 -right-4 bg-white/90 border rounded-2xl shadow px-4 py-3">
-          <p class="text-sm">Sammen når vi <strong>flere</strong> i Struer</p>
-        </div>
       </div>
     </div>
   </section>
 
-  <!-- Tiers -->
+  <!-- Pakker (klikbare) -->
   <section id="tiers" class="py-12">
     <div class="max-w-7xl mx-auto px-4">
       <h2 class="text-2xl md:text-3xl font-extrabold tracking-tight">Vælg din pakke</h2>
-      <p class="mt-2 text-slate-600">Alle pakker kan udvides med tilkøb. Faktura pr. år. CVR-kvittering.</p>
+      <p class="mt-2 text-slate-600">Klik på et kort eller brug knappen “Vælg pakke”.</p>
 
       <div class="mt-6 grid md:grid-cols-3 gap-6">
         <!-- Bronze -->
-        <article class="card p-6">
-          <div class="text-sm font-semibold text-amber-700">Bronze</div>
+        <article class="card p-6 cursor-pointer tier" data-tier="Bronze" tabindex="0" aria-label="Vælg Bronze">
+          <div class="flex items-center gap-2">
+            <div class="text-2xl">🥉</div>
+            <div class="text-sm font-semibold text-amber-700">Bronze</div>
+          </div>
           <div class="mt-1 text-3xl font-extrabold">DKK 2.500<span class="text-base font-medium text-slate-500"> /år</span></div>
           <ul class="mt-4 grid gap-2 text-sm">
-            <li class="check">Logo på hjemmeside (sponsorvæg)</li>
-            <li class="check">Tak på Facebook/Instagram</li>
-            <li class="check">Klubcertifikat til butik/kontor</li>
-            <li class="x text-slate-500">—</li>
+            <li class="flex items-center gap-2"><span>✓</span><span>Logo på hjemmeside (sponsorvæg)</span></li>
+            <li class="flex items-center gap-2"><span>✓</span><span>Tak på Facebook/Instagram</span></li>
+            <li class="flex items-center gap-2"><span>✓</span><span>Klubcertifikat til butik/kontor</span></li>
           </ul>
-          <a class="mt-5 inline-flex rounded-2xl px-5 py-2.5 bg-emerald-600 text-white font-semibold hover:opacity-90"
-             href="mailto:kontakt@humlumdartklub.dk?subject=Sponsor%20Bronze">Vælg Bronze</a>
+          <button class="mt-5 inline-flex rounded-2xl px-5 py-2.5 bg-emerald-600 text-white font-semibold hover:opacity-90 choose-btn" data-tier="Bronze">
+            Vælg pakke
+          </button>
         </article>
 
         <!-- Sølv -->
-        <article class="card p-6 border-emerald-300">
-          <div class="text-sm font-semibold text-slate-700">Sølv</div>
+        <article class="card p-6 cursor-pointer tier" data-tier="Sølv" tabindex="0" aria-label="Vælg Sølv">
+          <div class="flex items-center gap-2">
+            <div class="text-2xl">🥈</div>
+            <div class="text-sm font-semibold text-slate-700">Sølv</div>
+          </div>
           <div class="mt-1 text-3xl font-extrabold">DKK 5.000<span class="text-base font-medium text-slate-500"> /år</span></div>
           <ul class="mt-4 grid gap-2 text-sm">
-            <li class="check">Alt i Bronze</li>
-            <li class="check">Logo på event-rollup i hallen</li>
-            <li class="check">Sponsoromtale ved events (speak)</li>
-            <li class="check">2 fribilletter til årlig klubturnering</li>
+            <li class="flex items-center gap-2"><span>✓</span><span>Alt i Bronze</span></li>
+            <li class="flex items-center gap-2"><span>✓</span><span>Logo på event-rollup i hallen</span></li>
+            <li class="flex items-center gap-2"><span>✓</span><span>Sponsoromtale ved events (speak)</span></li>
+            <li class="flex items-center gap-2"><span>✓</span><span>2 fribilletter til årlig klubturnering</span></li>
           </ul>
-          <a class="mt-5 inline-flex rounded-2xl px-5 py-2.5 bg-emerald-600 text-white font-semibold hover:opacity-90"
-             href="mailto:kontakt@humlumdartklub.dk?subject=Sponsor%20S%C3%B8lv">Vælg Sølv</a>
+          <button class="mt-5 inline-flex rounded-2xl px-5 py-2.5 bg-emerald-600 text-white font-semibold hover:opacity-90 choose-btn" data-tier="Sølv">
+            Vælg pakke
+          </button>
         </article>
 
         <!-- Guld -->
-        <article class="card p-6 border-emerald-500 ring-1 ring-emerald-200">
-          <div class="text-sm font-semibold text-yellow-600">Guld</div>
+        <article class="card p-6 cursor-pointer tier" data-tier="Guld" tabindex="0" aria-label="Vælg Guld">
+          <div class="flex items-center gap-2">
+            <div class="text-2xl">🥇</div>
+            <div class="text-sm font-semibold text-yellow-600">Guld</div>
+          </div>
           <div class="mt-1 text-3xl font-extrabold">DKK 10.000<span class="text-base font-medium text-slate-500"> /år</span></div>
           <ul class="mt-4 grid gap-2 text-sm">
-            <li class="check">Alt i Sølv</li>
-            <li class="check">Logo på træningstrøjer (ærme)</li>
-            <li class="check">Årlig firma-dart aften (2 timer)</li>
-            <li class="check">Profil på sponsorvæg + link</li>
+            <li class="flex items-center gap-2"><span>✓</span><span>Alt i Sølv</span></li>
+            <li class="flex items-center gap-2"><span>✓</span><span>Logo på træningstrøjer (ærme)</span></li>
+            <li class="flex items-center gap-2"><span>✓</span><span>Årlig firma-dart aften (2 timer)</span></li>
+            <li class="flex items-center gap-2"><span>✓</span><span>Profil på sponsorvæg + link</span></li>
           </ul>
-          <a class="mt-5 inline-flex rounded-2xl px-5 py-2.5 bg-emerald-600 text-white font-semibold hover:opacity-90"
-             href="mailto:kontakt@humlumdartklub.dk?subject=Sponsor%20Guld">Vælg Guld</a>
+          <button class="mt-5 inline-flex rounded-2xl px-5 py-2.5 bg-emerald-600 text-white font-semibold hover:opacity-90 choose-btn" data-tier="Guld">
+            Vælg pakke
+          </button>
         </article>
       </div>
     </div>
   </section>
 
-  <!-- Comparison -->
+  <!-- Sammenligning -->
   <section id="compare" class="py-12 border-t">
     <div class="max-w-7xl mx-auto px-4">
       <h2 class="text-2xl md:text-3xl font-extrabold tracking-tight">Sammenlign fordele</h2>
@@ -128,10 +130,7 @@
         <table class="w-full text-sm">
           <thead>
             <tr class="text-left text-slate-500 border-b">
-              <th class="py-2">Fordel</th>
-              <th class="py-2">Bronze</th>
-              <th class="py-2">Sølv</th>
-              <th class="py-2">Guld</th>
+              <th class="py-2">Fordel</th><th class="py-2">Bronze</th><th class="py-2">Sølv</th><th class="py-2">Guld</th>
             </tr>
           </thead>
           <tbody>
@@ -147,104 +146,106 @@
     </div>
   </section>
 
-  <!-- Add-ons -->
+  <!-- Tilkøb -->
   <section id="addons" class="py-12">
     <div class="max-w-7xl mx-auto px-4">
       <h2 class="text-2xl md:text-3xl font-extrabold tracking-tight">Tilkøb & muligheder</h2>
       <div class="mt-6 grid md:grid-cols-3 gap-6">
-        <article class="card p-5">
-          <h3 class="font-bold">Event-sponsorat</h3>
-          <p class="mt-1 text-sm text-slate-600">Navngiv en turnering eller præmie. Omtale + visuel eksponering.</p>
-          <p class="mt-2 text-xs text-slate-500">Fra DKK 3.000 pr. event</p>
-        </article>
-        <article class="card p-5">
-          <h3 class="font-bold">Materialestøtte</h3>
-          <p class="mt-1 text-sm text-slate-600">Skiver, pile, beklædning. Logo på inventar hvor muligt.</p>
-          <p class="mt-2 text-xs text-slate-500">Aftales</p>
-        </article>
-        <article class="card p-5">
-          <h3 class="font-bold">SoMe-pakke</h3>
-          <p class="mt-1 text-sm text-slate-600">Kampagnestory + opslag, før/efter event.</p>
-          <p class="mt-2 text-xs text-slate-500">DKK 1.500</p>
-        </article>
+        <label class="card p-5 border-2 cursor-pointer flex items-start gap-3">
+          <input type="checkbox" class="tilkob sr-only" value="Event-sponsorat" />
+          <span class="text-lg">📣</span>
+          <div><div class="font-bold">Event-sponsorat</div><div class="text-sm text-slate-600">Navngiv en turnering, omtale + eksponering. (Fra DKK 3.000)</div></div>
+        </label>
+        <label class="card p-5 border-2 cursor-pointer flex items-start gap-3">
+          <input type="checkbox" class="tilkob sr-only" value="Materialestøtte" />
+          <span class="text-lg">🧰</span>
+          <div><div class="font-bold">Materialestøtte</div><div class="text-sm text-slate-600">Skiver, pile, beklædning. Logo på inventar hvor muligt.</div></div>
+        </label>
+        <label class="card p-5 border-2 cursor-pointer flex items-start gap-3">
+          <input type="checkbox" class="tilkob sr-only" value="SoMe-pakke" />
+          <span class="text-lg">📱</span>
+          <div><div class="font-bold">SoMe-pakke</div><div class="text-sm text-slate-600">Kampagnestory + opslag før/efter event. (DKK 1.500)</div></div>
+        </label>
       </div>
+      <p class="mt-2 text-xs text-slate-500">Tip: Vælg tilkøb – de kommer automatisk med i aftalen.</p>
     </div>
   </section>
 
-  <!-- Sponsor wall -->
-  <section class="py-12 border-y bg-slate-50">
+  <!-- Kontakt (anker) -->
+  <section id="kontakt" class="py-12 border-t">
     <div class="max-w-7xl mx-auto px-4">
-      <div class="flex items-end justify-between">
-        <h2 class="text-2xl md:text-3xl font-extrabold tracking-tight">Vores partnere</h2>
-        <a href="#kontakt" class="hidden md:inline-flex rounded-2xl px-4 py-2 border font-semibold hover:bg-white">Bliv partner</a>
-      </div>
-      <div class="mt-6 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-6 items-center grayscale hover:grayscale-0 transition">
-        <img class="h-10 object-contain mx-auto" src="images/sponsors/struer-energi.png" alt="Struer Energi" />
-        <img class="h-10 object-contain mx-auto" src="images/sponsors/grundfos.png" alt="Grundfos" />
-        <img class="h-10 object-contain mx-auto" src="images/sponsors/dk-roof.png" alt="DK Roof" />
-        <img class="h-10 object-contain mx-auto" src="images/sponsors/priess.png" alt="Priess" />
-        <img class="h-10 object-contain mx-auto" src="images/sponsors/hvidberg.png" alt="Hvidberg" />
-        <img class="h-10 object-contain mx-auto" src="images/sponsors/your-logo.png" alt="Dit logo her" />
-      </div>
-      <p class="mt-3 text-xs text-slate-500">Tip: Læg firma-logoer i <code>/images/sponsors/</code> og opdater filnavne her.</p>
-    </div>
-  </section>
-
-  <!-- FAQ -->
-  <section id="faq" class="py-12">
-    <div class="max-w-4xl mx-auto px-4">
-      <h2 class="text-2xl md:text-3xl font-extrabold tracking-tight">FAQ — ofte stillede spørgsmål</h2>
-      <div class="mt-6 grid gap-4">
-        <details class="card p-4" open>
-          <summary class="font-semibold cursor-pointer">Hvordan betaler vi?</summary>
-          <p class="mt-2 text-sm text-slate-600">Vi fakturerer årligt. CVR påføres faktura. Betaling via bankoverførsel.</p>
-        </details>
-        <details class="card p-4">
-          <summary class="font-semibold cursor-pointer">Kan vi opgradere midt i året?</summary>
-          <p class="mt-2 text-sm text-slate-600">Ja, vi modregner forholdsmæssigt og opdaterer eksponering straks.</p>
-        </details>
-        <details class="card p-4">
-          <summary class="font-semibold cursor-pointer">Kan vi få skræddersyet aftale?</summary>
-          <p class="mt-2 text-sm text-slate-600">Selvfølgelig. Kontakt os, så designer vi en løsning der passer jeres mål.</p>
-        </details>
-      </div>
-    </div>
-  </section>
-
-  <!-- CTA strip -->
-  <section class="py-10 bg-emerald-600 text-white">
-    <div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-4">
-      <div class="text-xl font-bold">Klar til at være med?</div>
-      <div class="flex flex-wrap gap-3">
-        <a href="#kontakt" class="rounded-2xl px-5 py-3 bg-white text-emerald-700 font-semibold">Kontakt os</a>
-        <a href="docs/sponsorpakke.pdf" class="rounded-2xl px-5 py-3 border border-white font-semibold">Download oversigt (PDF)</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- Kontakt -->
-  <section id="kontakt" class="py-12">
-    <div class="max-w-3xl mx-auto px-4">
       <h2 class="text-2xl md:text-3xl font-extrabold tracking-tight">Kontakt</h2>
-      <p class="mt-2 text-slate-600">Skriv en mail — vi svarer hurtigt og hjælper jer i gang.</p>
-      <div class="mt-6 card p-5 grid md:grid-cols-2 gap-6">
-        <div class="text-sm">
-          <div class="font-semibold">Humlum Dartklub</div>
-          <div>Stadionvej 1, 7600 Struer</div>
-          <div class="mt-2">Mail: <a class="text-emerald-700 font-semibold" href="mailto:kontakt@humlumdartklub.dk">kontakt@humlumdartklub.dk</a></div>
-          <div>Telefon: <a class="text-emerald-700 font-semibold" href="tel:+4512345678">+45 12 34 56 78</a></div>
-        </div>
-        <form class="grid gap-3 text-sm">
-          <label class="grid gap-1"><span class="font-medium">Virksomhed</span><input class="rounded-xl border px-3 py-2" placeholder="Firmanavn"></label>
-          <label class="grid gap-1"><span class="font-medium">Kontaktperson</span><input class="rounded-xl border px-3 py-2" placeholder="Navn"></label>
-          <label class="grid gap-1"><span class="font-medium">E-mail</span><input type="email" class="rounded-xl border px-3 py-2" placeholder="mail@firma.dk"></label>
-          <label class="grid gap-1"><span class="font-medium">Besked</span><textarea rows="4" class="rounded-xl border px-3 py-2" placeholder="Fortæl kort om ønsket pakke/idé"></textarea></label>
-          <a href="mailto:kontakt@humlumdartklub.dk?subject=Sponsor%20kontakt" class="mt-1 inline-flex justify-center rounded-2xl px-5 py-3 bg-emerald-600 text-white font-semibold hover:opacity-90">Send forespørgsel</a>
-          <p class="text-xs text-slate-500">Ved at indsende accepterer du vores privatlivspolitik.</p>
-        </form>
-      </div>
+      <p class="mt-2 text-slate-600">Du kan også bruge “Vælg pakke”-knapperne for en auto-udfyldt aftale.</p>
+      <p class="mt-3 text-sm">Mail: <a class="text-emerald-700 font-semibold" href="mailto:kontakt@humlumdartklub.dk">kontakt@humlumdartklub.dk</a> · Tlf: <a class="text-emerald-700 font-semibold" href="tel:+4512345678">+45 12 34 56 78</a></p>
     </div>
   </section>
+
+  <!-- Modal: Aftaleformular -->
+  <dialog id="aftaleModal" class="w-[95vw] max-w-2xl rounded-2xl p-0">
+    <form method="dialog" class="p-0">
+      <div class="px-5 py-4 border-b flex items-center justify-between">
+        <div class="text-lg font-bold">Sponsor-aftale</div>
+        <button class="rounded-lg border px-3 py-1 text-sm" value="cancel" aria-label="Luk">Luk</button>
+      </div>
+      <div class="p-5 grid gap-3 text-sm">
+        <div class="grid md:grid-cols-2 gap-3">
+          <label class="grid gap-1"><span class="font-medium">Virksomhed</span><input id="f_company" class="rounded-xl border px-3 py-2" required></label>
+          <label class="grid gap-1"><span class="font-medium">CVR</span><input id="f_cvr" class="rounded-xl border px-3 py-2"></label>
+        </div>
+        <div class="grid md:grid-cols-3 gap-3">
+          <label class="grid gap-1"><span class="font-medium">Kontaktperson</span><input id="f_name" class="rounded-xl border px-3 py-2" required></label>
+          <label class="grid gap-1"><span class="font-medium">Telefon</span><input id="f_phone" class="rounded-xl border px-3 py-2"></label>
+          <label class="grid gap-1"><span class="font-medium">E-mail</span><input id="f_email" type="email" class="rounded-xl border px-3 py-2" required></label>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-3">
+          <label class="grid gap-1">
+            <span class="font-medium">Valgt pakke</span>
+            <select id="f_tier" class="rounded-xl border px-3 py-2" required>
+              <option>Bronze</option><option>Sølv</option><option>Guld</option>
+            </select>
+          </label>
+          <label class="grid gap-1">
+            <span class="font-medium">Startdato</span>
+            <input id="f_start" type="date" class="rounded-xl border px-3 py-2">
+          </label>
+        </div>
+
+        <div class="grid gap-2">
+          <div class="font-medium">Tilkøb</div>
+          <div id="f_addons" class="grid md:grid-cols-3 gap-2">
+            <label class="border rounded-xl px-3 py-2 flex items-center gap-2 cursor-pointer">
+              <input type="checkbox" value="Event-sponsorat" class="addon"> <span>Event-sponsorat</span>
+            </label>
+            <label class="border rounded-xl px-3 py-2 flex items-center gap-2 cursor-pointer">
+              <input type="checkbox" value="Materialestøtte" class="addon"> <span>Materialestøtte</span>
+            </label>
+            <label class="border rounded-xl px-3 py-2 flex items-center gap-2 cursor-pointer">
+              <input type="checkbox" value="SoMe-pakke" class="addon"> <span>SoMe-pakke</span>
+            </label>
+          </div>
+        </div>
+
+        <label class="grid gap-1">
+          <span class="font-medium">Bemærkninger</span>
+          <textarea id="f_note" rows="4" class="rounded-xl border px-3 py-2" placeholder="Evt. ønsker til eksponering, logo, farver m.m."></textarea>
+        </label>
+
+        <label class="mt-2 inline-flex items-center gap-2 text-xs">
+          <input id="f_terms" type="checkbox" required>
+          <span>Jeg accepterer, at klubben må kontakte os og behandle oplysninger jf. privatlivspolitik.</span>
+        </label>
+      </div>
+
+      <div class="px-5 py-4 border-t flex flex-col md:flex-row gap-3 md:items-center md:justify-between">
+        <div class="text-xs text-slate-500">Aftalen sendes som e-mail udkast — du får en kopi.</div>
+        <div class="flex flex-wrap gap-2">
+          <button id="btnMail" class="inline-flex rounded-2xl px-4 py-2 bg-emerald-600 text-white font-semibold">Generér e-mail</button>
+          <button id="btnDownload" class="inline-flex rounded-2xl px-4 py-2 border font-semibold">Download aftaleudkast (.txt)</button>
+        </div>
+      </div>
+    </form>
+  </dialog>
 
   <!-- Footer -->
   <footer class="py-10 border-t bg-white">
@@ -254,11 +255,114 @@
         <a href="index.html#news" class="hover:text-emerald-700">Forside</a>
         <a href="index.html#events" class="hover:text-emerald-700">Aktiviteter</a>
         <a href="#tiers" class="hover:text-emerald-700">Pakker</a>
-        <a href="#faq" class="hover:text-emerald-700">FAQ</a>
+        <a href="#addons" class="hover:text-emerald-700">Tilkøb</a>
       </div>
     </div>
   </footer>
 
-  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+  <!-- Interaktiv logik -->
+  <script>
+    const modal = document.getElementById('aftaleModal');
+    const yearEl = document.getElementById('year');
+    yearEl.textContent = new Date().getFullYear();
+
+    // Markér valgt tier og åbn modal
+    function openForTier(tier){
+      // markér kort
+      document.querySelectorAll('.tier').forEach(c=>c.classList.remove('tier-selected'));
+      const chosen = document.querySelector('.tier[data-tier="'+tier+'"]');
+      if(chosen) chosen.classList.add('tier-selected');
+
+      // forudfyld select
+      document.getElementById('f_tier').value = tier;
+
+      // fokuser på virksomhedsnavn
+      modal.showModal();
+      setTimeout(()=>document.getElementById('f_company').focus(), 50);
+    }
+
+    // Klik på kortet
+    document.querySelectorAll('.tier').forEach(card=>{
+      card.addEventListener('click', ()=> openForTier(card.dataset.tier));
+      card.addEventListener('keydown', (e)=>{ if(e.key==='Enter' || e.key===' ') { e.preventDefault(); openForTier(card.dataset.tier); }});
+    });
+
+    // Klik på knapperne
+    document.querySelectorAll('.choose-btn').forEach(btn=>{
+      btn.addEventListener('click', (e)=>{ e.stopPropagation(); openForTier(btn.dataset.tier); });
+    });
+
+    // Indsaml tilkøb fra både sektion og modal
+    function getSelectedAddons(){
+      const set = new Set();
+      // fra sektionen “Tilkøb”
+      document.querySelectorAll('.tilkob:checked').forEach(i=> set.add(i.value));
+      // fra modalens egne checkbokse
+      document.querySelectorAll('#f_addons .addon:checked').forEach(i=> set.add(i.value));
+      return Array.from(set);
+    }
+
+    function buildEmailBody(){
+      const company = document.getElementById('f_company').value.trim();
+      const cvr = document.getElementById('f_cvr').value.trim();
+      const name = document.getElementById('f_name').value.trim();
+      const phone = document.getElementById('f_phone').value.trim();
+      const email = document.getElementById('f_email').value.trim();
+      const tier = document.getElementById('f_tier').value;
+      const start = document.getElementById('f_start').value;
+      const note = document.getElementById('f_note').value.trim();
+      const addons = getSelectedAddons();
+
+      const lines = [
+        `Virksomhed: ${company}`,
+        cvr ? `CVR: ${cvr}` : null,
+        `Kontaktperson: ${name}`,
+        phone ? `Telefon: ${phone}` : null,
+        `E-mail: ${email}`,
+        `Valgt pakke: ${tier}`,
+        start ? `Ønsket startdato: ${start}` : null,
+        addons.length ? `Tilkøb: ${addons.join(', ')}` : `Tilkøb: (ingen)`,
+        note ? `Bemærkninger: ${note}` : null,
+        '',
+        'Jeg bekræfter hermed interessen, og ønsker udkast til aftale.',
+      ].filter(Boolean);
+
+      return lines.join('%0D%0A'); // URL encoded line breaks
+    }
+
+    // Generér mailto
+    document.getElementById('btnMail').addEventListener('click', (e)=>{
+      e.preventDefault();
+      if(!document.getElementById('f_terms').checked){
+        alert('Sæt venligst flueben ved vilkår først.');
+        return;
+      }
+      const tier = document.getElementById('f_tier').value;
+      const subject = encodeURIComponent(`Sponsor-aftale: ${tier}`);
+      const body = buildEmailBody();
+      const to = 'kontakt@humlumdartklub.dk';
+      window.location.href = `mailto:${to}?subject=${subject}&body=${body}`;
+    });
+
+    // Download som .txt
+    document.getElementById('btnDownload').addEventListener('click', (e)=>{
+      e.preventDefault();
+      if(!document.getElementById('f_terms').checked){
+        alert('Sæt venligst flueben ved vilkår først.');
+        return;
+      }
+      // lav ren tekst (ikke URL-enc)
+      const decode = (s)=> decodeURIComponent(s.replace(/%0D%0A/g, '\n'));
+      const txt = decode(buildEmailBody());
+      const blob = new Blob([txt], {type:'text/plain;charset=utf-8'});
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      const tier = document.getElementById('f_tier').value;
+      a.download = `HumlumDartklub_Sponsor_${tier}.txt`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+    });
+  </script>
 </body>
 </html>
